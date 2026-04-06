@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Click2BIM — Founding Member Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f2eb;
+    --accent: #c8f542;
+    --accent2: #1a3aff;
+    --muted: #6b6b72;
+    --border: rgba(10,10,15,0.12);
+    --border-strong: rgba(10,10,15,0.24);
+    --card: rgba(255,255,255,0.65);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Instrument Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grain */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: relative; z-index: 10;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 26px clamp(24px, 5vw, 80px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'DM Mono', monospace; font-weight: 500; font-size: 15px; letter-spacing: 0.05em; }
+  .logo span { color: var(--accent2); }
+  .nav-tag { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); background: rgba(10,10,15,0.06); padding: 6px 14px; border-radius: 20px; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-rows: 1fr auto;
+    padding: 0 clamp(24px, 5vw, 80px);
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(26,58,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,58,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none;
+  }
+  .hero-bg-number {
+    position: absolute; right: -2vw; top: 50%; transform: translateY(-55%);
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(180px, 26vw, 400px);
+    line-height: 1; color: transparent;
+    -webkit-text-stroke: 1px rgba(26,58,255,0.07);
+    pointer-events: none; user-select: none; z-index: 0; white-space: nowrap;
+  }
+  .hero-content {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 60px 0 40px; position: relative; z-index: 10; max-width: 860px;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--accent2); margin-bottom: 28px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+  .eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent2); }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(44px, 7.5vw, 104px);
+    line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 32px;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.35s;
+  }
+  h1 em { font-style: italic; color: var(--accent2); }
+  h1 .hl { display: inline-block; background: var(--accent); color: var(--ink); padding: 0 12px 4px; border-radius: 4px; font-style: normal; }
+  .hero-sub {
+    font-size: clamp(16px, 1.8vw, 19px); line-height: 1.65; color: var(--muted);
+    max-width: 580px; margin-bottom: 48px;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.5s;
+  }
+  .hero-cta {
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.65s;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--ink); color: var(--paper);
+    font-family: 'Instrument Sans', sans-serif; font-size: 15px; font-weight: 600;
+    padding: 16px 32px; border-radius: 4px; text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s; letter-spacing: 0.01em; border: none; cursor: pointer;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(10,10,15,0.18); }
+  .btn-primary .arrow { transition: transform 0.2s; }
+  .btn-primary:hover .arrow { transform: translateX(4px); }
+  .seats-live { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .seats-live::before { content: ''; width: 8px; height: 8px; background: #e85c3a; border-radius: 50%; animation: pulse 2s infinite; }
+  .hero-bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding: 28px 0; border-top: 1px solid var(--border);
+    position: relative; z-index: 10; flex-wrap: wrap; gap: 16px;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.8s;
+  }
+  .stat-row { display: flex; gap: clamp(24px, 5vw, 64px); flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-value { font-family: 'DM Serif Display', serif; font-size: clamp(24px, 3.5vw, 40px); line-height: 1; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .timeline-pill { display: flex; align-items: center; gap: 12px; background: rgba(10,10,15,0.05); border: 1px solid var(--border); border-radius: 40px; padding: 10px 20px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+  .timeline-pill span { color: var(--ink); font-weight: 500; }
+
+  /* ── SECTIONS ── */
+  .section { padding: clamp(60px, 10vw, 120px) clamp(24px, 5vw, 80px); }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 48px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 200px; }
+
+  /* ── ALPHA HONESTY SECTION ── */
+  .alpha-section { padding: clamp(60px, 10vw, 120px) clamp(24px, 5vw, 80px); background: var(--ink); color: var(--paper); position: relative; overflow: hidden; }
+  .alpha-section::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(200,245,66,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(200,245,66,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+  .alpha-section .section-label { color: rgba(245,242,235,0.35); }
+  .alpha-section .section-label::after { background: rgba(245,242,235,0.1); }
+  .alpha-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; position: relative; }
+  @media (max-width: 760px) { .alpha-grid { grid-template-columns: 1fr; gap: 48px; } }
+  .alpha-heading { font-family: 'DM Serif Display', serif; font-size: clamp(36px, 5.5vw, 72px); line-height: 1; margin-bottom: 24px; }
+  .alpha-heading em { font-style: italic; color: var(--accent); }
+  .alpha-desc { font-size: 15px; line-height: 1.75; color: rgba(245,242,235,0.6); }
+  .alpha-list { display: flex; flex-direction: column; gap: 0; }
+  .alpha-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .alpha-item:first-child { border-top: 1px solid rgba(255,255,255,0.08); }
+  .alpha-icon { width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
+  .icon-limit { background: rgba(255,255,255,0.06); }
+  .icon-benefit { background: rgba(200,245,66,0.12); }
+  .alpha-item-title { font-size: 14px; font-weight: 600; color: var(--paper); margin-bottom: 4px; }
+  .alpha-item-desc { font-size: 13px; color: rgba(245,242,235,0.5); line-height: 1.6; }
+
+  /* ── FOUNDING OFFER SECTION ── */
+  .offer-section { padding: clamp(60px, 10vw, 120px) clamp(24px, 5vw, 80px); }
+  .offer-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  @media (max-width: 860px) { .offer-layout { grid-template-columns: 1fr; gap: 48px; } }
+
+  /* Fee card */
+  .fee-card {
+    border: 1px solid var(--border); border-radius: 12px;
+    background: var(--ink); color: var(--paper);
+    overflow: hidden; position: relative;
+  }
+  .fee-card-ribbon {
+    background: var(--accent); color: var(--ink);
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    text-align: center; padding: 8px 0;
+  }
+  .fee-card-body { padding: 32px; }
+  .fee-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,242,235,0.35); margin-bottom: 8px; }
+  .fee-price { font-family: 'DM Serif Display', serif; font-size: 80px; line-height: 1; color: var(--accent); margin-bottom: 4px; }
+  .fee-price sup { font-size: 32px; vertical-align: top; margin-top: 14px; display: inline-block; font-family: 'Instrument Sans', sans-serif; font-weight: 400; }
+  .fee-qualifier { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(245,242,235,0.35); margin-bottom: 28px; }
+  .fee-divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 20px 0; }
+
+  /* What you get list */
+  .gets-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+  .gets-item { display: flex; align-items: flex-start; gap: 14px; }
+  .gets-check { width: 22px; height: 22px; background: rgba(200,245,66,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .gets-check svg { display: block; }
+  .gets-text { font-size: 14px; color: rgba(245,242,235,0.8); line-height: 1.5; }
+  .gets-text strong { color: var(--paper); font-weight: 600; }
+  .gets-text em { font-style: normal; color: var(--accent); font-weight: 500; }
+
+  .btn-offer {
+    display: block; width: 100%; background: var(--accent); color: var(--ink);
+    font-family: 'Instrument Sans', sans-serif; font-weight: 600; font-size: 16px;
+    padding: 18px 32px; border-radius: 4px; text-decoration: none; text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s; letter-spacing: 0.02em; border: none; cursor: pointer;
+  }
+  .btn-offer:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(200,245,66,0.25); }
+  .seats-note { text-align: center; font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(245,242,235,0.3); margin-top: 14px; }
+
+  /* Guarantee badge */
+  .guarantee-badge {
+    display: flex; align-items: flex-start; gap: 14px;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+    padding: 16px; margin-top: 20px;
+    background: rgba(255,255,255,0.04);
+  }
+  .guarantee-icon { font-size: 22px; flex-shrink: 0; }
+  .guarantee-title { font-size: 13px; font-weight: 600; color: var(--paper); margin-bottom: 3px; }
+  .guarantee-desc { font-size: 12px; color: rgba(245,242,235,0.45); line-height: 1.6; }
+
+  /* Right column — why section */
+  .offer-why-heading { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4.5vw, 56px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 24px; }
+  .offer-why-heading em { font-style: italic; color: var(--accent2); }
+  .offer-why-desc { font-size: 15px; line-height: 1.75; color: var(--muted); margin-bottom: 36px; }
+
+  /* Rate comparison table */
+  .rate-compare { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 36px; }
+  .rate-compare-header { display: grid; grid-template-columns: 1fr 1fr 1fr; background: var(--ink); padding: 10px 16px; }
+  .rate-col-head { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .rate-col-head:first-child { color: rgba(245,242,235,0.4); }
+  .rate-col-head.std { color: rgba(245,242,235,0.4); text-align: right; }
+  .rate-col-head.founding { color: var(--accent); text-align: right; }
+  .rate-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 12px 16px; border-bottom: 0.5px solid var(--border); align-items: center; }
+  .rate-row:last-child { border-bottom: none; }
+  .rate-row:nth-child(even) { background: rgba(10,10,15,0.02); }
+  .rate-band-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .rate-band-vol { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .rate-std { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--muted); text-align: right; text-decoration: line-through; }
+  .rate-founding { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--accent2); text-align: right; }
+  .rate-savings-tag { display: inline-block; background: rgba(26,58,255,0.08); color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 7px; border-radius: 20px; margin-left: 4px; vertical-align: middle; }
+
+  /* Payback calculator widget */
+  .payback-widget { background: rgba(10,10,15,0.04); border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+  .payback-title { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 16px; }
+  .pw-slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .pw-slider-row input[type=range] { flex: 1; accent-color: var(--accent2); }
+  .pw-val { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--ink); min-width: 80px; text-align: right; }
+  .pw-results { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pw-result { background: white; border-radius: 7px; padding: 14px; border: 0.5px solid var(--border); }
+  .pw-result.highlight { background: var(--ink); }
+  .pw-result-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; }
+  .pw-result.highlight .pw-result-label { color: rgba(245,242,235,0.35); }
+  .pw-result-value { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--ink); line-height: 1; }
+  .pw-result.highlight .pw-result-value { color: var(--accent); }
+  .pw-note { font-size: 12px; color: var(--muted); margin-top: 14px; line-height: 1.6; }
+
+  /* ── TIMELINE ── */
+  .timeline-section { padding: clamp(60px, 10vw, 120px) clamp(24px, 5vw, 80px); background: white; }
+  .timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; }
+  .tl-item { background: var(--paper); padding: 32px 28px; position: relative; }
+  .tl-item.now { background: white; }
+  .tl-item.now::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+  .tl-date { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .tl-event { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 10px; }
+  .tl-detail { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .tl-tag { display: inline-block; margin-top: 14px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; }
+  .tl-tag.green { background: rgba(200,245,66,0.2); color: #3a6600; }
+  .tl-tag.blue { background: rgba(26,58,255,0.08); color: var(--accent2); }
+
+  /* ── WHO ── */
+  .who-section { padding: clamp(60px, 10vw, 120px) clamp(24px, 5vw, 80px); }
+  .who-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 48px; }
+  .who-card { border: 1px solid var(--border); border-radius: 10px; padding: 28px; background: white; transition: border-color 0.2s, transform 0.2s; }
+  .who-card:hover { border-color: var(--accent2); transform: translateY(-4px); }
+  .who-icon { font-size: 22px; margin-bottom: 16px; }
+  .who-title { font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 8px; }
+  .who-desc { font-size: 13px; line-height: 1.7; color: var(--muted); }
+
+  /* ── QUOTE BAND ── */
+  .quote-band { background: var(--accent); padding: clamp(48px, 8vw, 96px) clamp(24px, 5vw, 80px); text-align: center; }
+  .quote-band blockquote { font-family: 'DM Serif Display', serif; font-size: clamp(26px, 4.5vw, 52px); line-height: 1.15; color: var(--ink); max-width: 860px; margin: 0 auto; }
+  .quote-band cite { display: block; font-family: 'DM Mono', monospace; font-size: 12px; font-style: normal; letter-spacing: 0.1em; color: rgba(10,10,15,0.45); margin-top: 24px; text-transform: uppercase; }
+
+  /* ── FOOTER ── */
+  footer { padding: 36px clamp(24px, 5vw, 80px); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-logo { font-family: 'DM Mono', monospace; font-weight: 500; font-size: 14px; }
+  .footer-logo span { color: var(--accent2); }
+  .footer-note { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Click<span>2</span>BIM</div>
+  <div class="nav-tag">Founding 100 Invitation · 2026</div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg-number">100</div>
+  <div class="hero-content">
+    <div class="eyebrow">Exclusive · 100 seats · April 2026</div>
+    <h1>
+      Shape it.<br>
+      <em>Own</em> the rate.<br>
+      <span class="hl">Pay half. Forever.</span>
+    </h1>
+    <p class="hero-sub">
+      We're inviting 100 firms to co-build Click2BIM from the ground up. In return: permanent founding rates — 50% below market — and €2,500 in matched processing credits from day one. Not a trial. A stake.
+    </p>
+    <div class="hero-cta">
+      <a href="#offer" class="btn-primary">
+        Claim your founding seat <span class="arrow">→</span>
+      </a>
+      <div class="seats-live">100 seats · first-come, first-served</div>
+    </div>
+  </div>
+  <div class="hero-bottom">
+    <div class="stat-row">
+      <div class="stat">
+        <span class="stat-value">50%</span>
+        <span class="stat-label">Rate discount — permanent</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">€2,500</span>
+        <span class="stat-label">Credits — matched upfront</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">&lt; 7 mo</span>
+        <span class="stat-label">Fee payback at 20K m²/yr</span>
+      </div>
+    </div>
+    <div class="timeline-pill">
+      Alpha opens <span>April 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── ALPHA HONESTY ── -->
+<section class="alpha-section">
+  <div class="section-label">What you're signing up for — exactly</div>
+  <div class="alpha-grid">
+    <div>
+      <h2 class="alpha-heading">We'll be<br><em>honest</em><br>with you.</h2>
+      <p class="alpha-desc">
+        The alpha period runs for approximately six months. The platform will be functional and capable of delivering real project output — but it won't be complete. Feature coverage will expand monthly. Some workflows will require workarounds. You will encounter limitations that the full release will not have.<br><br>
+        We're telling you this plainly because the founding relationship is built on trust, not marketing copy. What you get in return is priced to reflect exactly that.
+      </p>
+    </div>
+    <div class="alpha-list">
+      <div class="alpha-item">
+        <div class="alpha-icon icon-limit">⚠</div>
+        <div>
+          <div class="alpha-item-title">Core scan-to-BIM works from day one</div>
+          <div class="alpha-item-desc">Point cloud ingestion, parametric element extraction, IFC export. The primary workflow is live. Advanced QA tooling and full export formats release progressively during alpha.</div>
+        </div>
+      </div>
+      <div class="alpha-item">
+        <div class="alpha-icon icon-limit">⚠</div>
+        <div>
+          <div class="alpha-item-title">Some features arrive during the period</div>
+          <div class="alpha-item-desc">DWG, DXF, RVT, PLN exports and automated deviation maps are on the Q3 2026 roadmap. Alpha users get each feature the day it releases.</div>
+        </div>
+      </div>
+      <div class="alpha-item">
+        <div class="alpha-icon icon-benefit">✦</div>
+        <div>
+          <div class="alpha-item-title">Your feedback directly shapes the product</div>
+          <div class="alpha-item-desc">Monthly roadmap sessions with the engineering team. You decide what gets prioritised. Your firm's workflow becomes part of the platform architecture.</div>
+        </div>
+      </div>
+      <div class="alpha-item">
+        <div class="alpha-icon icon-benefit">✦</div>
+        <div>
+          <div class="alpha-item-title">Your €2,500 in credits work immediately</div>
+          <div class="alpha-item-desc">Credits are spendable from alpha day one at founding rates. Real projects, real output, real value — while the market is still paying €1.00/m² for manual modelling.</div>
+        </div>
+      </div>
+      <div class="alpha-item">
+        <div class="alpha-icon icon-benefit">✦</div>
+        <div>
+          <div class="alpha-item-title">Satisfaction guarantee at full release</div>
+          <div class="alpha-item-desc">If you've participated in the alpha and are not satisfied with the full platform at Q4 2026 launch, €1,250 is returned to your account as platform credits. No ambiguity.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOUNDING OFFER ── -->
+<section class="offer-section" id="offer">
+  <div class="section-label">The founding offer</div>
+  <div class="offer-layout">
+
+    <!-- LEFT: FEE CARD -->
+    <div>
+      <div class="fee-card reveal">
+        <div class="fee-card-ribbon">Founding Member — 100 seats only</div>
+        <div class="fee-card-body">
+          <div class="fee-label">One-time founding fee</div>
+          <div class="fee-price"><sup>€</sup>2,500</div>
+          <div class="fee-qualifier">Paid once · never charged again · setup fee included</div>
+
+          <div class="gets-list">
+            <div class="gets-item">
+              <div class="gets-check">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 3.5l2.8 2.8L9 1" stroke="#c8f542" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="gets-text"><strong>€2,500 in processing credits</strong> — matched 1:1 to your fee. Spend them immediately in alpha at founding rates. Approx. <em>10,000 m²</em> of BIM processing from day one.</div>
+            </div>
+            <div class="gets-item">
+              <div class="gets-check">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 3.5l2.8 2.8L9 1" stroke="#c8f542" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="gets-text"><strong>Permanent founding rates — 50% off all bands, forever.</strong> Band 1 drops from €0.50 to <em>€0.25/m²</em>. Your rate never reverts, regardless of what we charge new customers.</div>
+            </div>
+            <div class="gets-item">
+              <div class="gets-check">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 3.5l2.8 2.8L9 1" stroke="#c8f542" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="gets-text"><strong>Company setup fee waived</strong> — the €500 onboarding fee that every standard customer pays is included in your founding fee at no additional cost.</div>
+            </div>
+            <div class="gets-item">
+              <div class="gets-check">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 3.5l2.8 2.8L9 1" stroke="#c8f542" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="gets-text"><strong>Click2SLIM included</strong> — intelligent point cloud compression, reducing your scan file sizes by up to 90% before upload. Included for all founding member users.</div>
+            </div>
+            <div class="gets-item">
+              <div class="gets-check">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 3.5l2.8 2.8L9 1" stroke="#c8f542" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="gets-text"><strong>Direct product access</strong> — monthly sessions with the engineering team, named founding member status in the platform, and priority support throughout alpha and beyond.</div>
+            </div>
+          </div>
+
+          <hr class="fee-divider">
+          <a href="mailto:founders@click2bim.io?subject=Founding Member Application — Click2BIM" class="btn-offer">
+            Apply for a founding seat →
+          </a>
+          <div class="seats-note">100 seats · closes when full or at full release · whichever comes first</div>
+
+          <div class="guarantee-badge">
+            <div class="guarantee-icon">🛡</div>
+            <div>
+              <div class="guarantee-title">Satisfaction guarantee</div>
+              <div class="guarantee-desc">If you've participated in the alpha programme and are not satisfied with Click2BIM at the Q4 2026 full release, €1,250 is returned to your account as platform credits — no questions asked.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: WHY + RATE TABLE + PAYBACK CALC -->
+    <div class="reveal">
+      <h2 class="offer-why-heading">
+        The rate you<br>lock today is the<br>rate you pay <em>forever.</em>
+      </h2>
+      <p class="offer-why-desc">
+        Standard customers opening accounts after the full release pay market rates that will only move upward as the platform matures. Founding members pay 50% of those rates in perpetuity — on every m² they ever process, regardless of volume or how long they stay.
+      </p>
+
+      <!-- RATE COMPARISON TABLE -->
+      <div class="rate-compare">
+        <div class="rate-compare-header">
+          <div class="rate-col-head">Band</div>
+          <div class="rate-col-head std">Standard</div>
+          <div class="rate-col-head founding">Your founding rate</div>
+        </div>
+        <div class="rate-row">
+          <div>
+            <div class="rate-band-name">Band 1</div>
+            <div class="rate-band-vol">0 – 10,000 m²/yr</div>
+          </div>
+          <div class="rate-std">€0.50/m²</div>
+          <div class="rate-founding">€0.25/m²<span class="rate-savings-tag">−50%</span></div>
+        </div>
+        <div class="rate-row">
+          <div>
+            <div class="rate-band-name">Band 2</div>
+            <div class="rate-band-vol">10,001 – 25,000 m²/yr</div>
+          </div>
+          <div class="rate-std">€0.38/m²</div>
+          <div class="rate-founding">€0.19/m²<span class="rate-savings-tag">−50%</span></div>
+        </div>
+        <div class="rate-row">
+          <div>
+            <div class="rate-band-name">Band 3</div>
+            <div class="rate-band-vol">25,001 – 100,000 m²/yr</div>
+          </div>
+          <div class="rate-std">€0.30/m²</div>
+          <div class="rate-founding">€0.15/m²<span class="rate-savings-tag">−50%</span></div>
+        </div>
+        <div class="rate-row">
+          <div>
+            <div class="rate-band-name">Band 4 — Enterprise</div>
+            <div class="rate-band-vol">100,001+ m²/yr</div>
+          </div>
+          <div class="rate-std">from €0.28/m²</div>
+          <div class="rate-founding" style="font-size:18px">from €0.14/m²<span class="rate-savings-tag">−50%</span></div>
+        </div>
+      </div>
+
+      <!-- PAYBACK CALCULATOR -->
+      <div class="payback-widget">
+        <div class="payback-title">Founding fee payback calculator</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:16px;">Your annual m² output</div>
+        <div class="pw-slider-row">
+          <input type="range" min="2000" max="100000" step="1000" value="20000" id="pw-sqm" oninput="calcPayback()">
+          <div class="pw-val" id="pw-sqm-out">20,000 m²</div>
+        </div>
+        <div class="pw-results">
+          <div class="pw-result">
+            <div class="pw-result-label">Annual saving vs standard</div>
+            <div class="pw-result-value" id="pw-annual-saving">€4,400</div>
+          </div>
+          <div class="pw-result highlight">
+            <div class="pw-result-label">Fee paid back in</div>
+            <div class="pw-result-value" id="pw-payback">~7 months</div>
+          </div>
+          <div class="pw-result">
+            <div class="pw-result-label">5-year saving</div>
+            <div class="pw-result-value" id="pw-5yr">€22,000</div>
+          </div>
+          <div class="pw-result">
+            <div class="pw-result-label">Effective year-1 cost/m²</div>
+            <div class="pw-result-value" id="pw-blended">€0.25</div>
+          </div>
+        </div>
+        <div class="pw-note" id="pw-note">At 20,000 m²/year your founding fee of €2,500 is recovered in under 7 months of use. Every year after that, you keep €4,400 that a standard customer pays.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUOTE ── -->
+<div class="quote-band">
+  <blockquote>
+    "You're not buying early access to a finished product. You're buying a permanent advantage over every firm that waits."
+  </blockquote>
+  <cite>The founding member proposition</cite>
+</div>
+
+<!-- ── TIMELINE ── -->
+<section class="timeline-section">
+  <div class="section-label">What happens when</div>
+  <div class="timeline">
+    <div class="tl-item now">
+      <div class="tl-date">Now · April 2026</div>
+      <div class="tl-event">Founding 100 open</div>
+      <div class="tl-detail">100 seats available. Apply, pay the founding fee, and your account activates with €2,500 in processing credits ready to spend.</div>
+      <span class="tl-tag green">You are here</span>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">April – October 2026</div>
+      <div class="tl-event">Alpha period</div>
+      <div class="tl-detail">Full access to core scan-to-BIM. Monthly feature drops. Direct engineering sessions. Use your credits on real projects while the market waits.</div>
+      <span class="tl-tag blue">~6 months</span>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Q4 2026</div>
+      <div class="tl-event">Full release</div>
+      <div class="tl-detail">Complete feature set. All export formats live. Standard customers onboard at full rates. Your founding rate is already locked — you pay half, permanently.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2027 and beyond</div>
+      <div class="tl-event">Market scales</div>
+      <div class="tl-detail">Platform rates rise with market position. Founding members are permanently grandfathered at 50% of whatever standard customers pay. That gap only widens.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHO ── -->
+<section class="who-section">
+  <div class="section-label">Who should apply</div>
+  <div class="who-grid">
+    <div class="who-card reveal">
+      <div class="who-icon">🏛️</div>
+      <div class="who-title">Architecture studios</div>
+      <div class="who-desc">Practices doing renovation, retrofit, or heritage work where scan-to-BIM is a regular cost. At 20,000 m²/year the founding fee pays back before your second project of the year.</div>
+    </div>
+    <div class="who-card reveal">
+      <div class="who-icon">⚙️</div>
+      <div class="who-title">BIM managers</div>
+      <div class="who-desc">Teams responsible for model quality and IFC delivery. Shape how Click2BIM handles your standards — directly, in monthly sessions — while locking the lowest rate that will ever exist.</div>
+    </div>
+    <div class="who-card reveal">
+      <div class="who-icon">🔭</div>
+      <div class="who-title">Survey & scanning firms</div>
+      <div class="who-desc">Companies that sell scan data and want to offer BIM modelling as a service add-on. Click2SLIM halves your upload times. Founding rates make your modelling margin permanent.</div>
+    </div>
+    <div class="who-card reveal">
+      <div class="who-icon">🏗️</div>
+      <div class="who-title">Design-build contractors</div>
+      <div class="who-desc">Firms converting site surveys into BIM for estimating and digital twin maintenance. The founding credit pack covers most or all of your first year's processing before you pay another cent.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">Click<span>2</span>BIM</div>
+  <div class="footer-note">Founding 100 closes at full release or when seats are filled · non-transferable</div>
+  <div class="footer-note">founders@click2bim.io</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 100);
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Marginal cost helper — standard rates
+  const STD_BANDS = [
+    { from: 1,     to: 10000,   rate: 0.50 },
+    { from: 10001, to: 25000,   rate: 0.38 },
+    { from: 25001, to: 100000,  rate: 0.30 },
+    { from: 100001,to: Infinity,rate: 0.28 },
+  ];
+  const FND_BANDS = STD_BANDS.map(b => ({ ...b, rate: b.rate * 0.5 }));
+
+  function marginal(sqm, bands) {
+    let cost = 0, done = 0;
+    for (const b of bands) {
+      if (done >= sqm) break;
+      const cap = b.to === Infinity ? sqm - done : Math.min(sqm - done, b.to - b.from + 1);
+      cost += cap * b.rate; done += cap;
+    }
+    return cost;
+  }
+
+  function fmt(n) { return Math.round(n).toLocaleString('de-DE'); }
+
+  function calcPayback() {
+    const sqm = parseInt(document.getElementById('pw-sqm').value);
+    document.getElementById('pw-sqm-out').textContent = fmt(sqm) + ' m²';
+
+    const stdCost = marginal(sqm, STD_BANDS);
+    const fndCost = marginal(sqm, FND_BANDS);
+    const annualSaving = stdCost - fndCost;
+    const feeNet = 2500 - 2500; // fee offset by matched credits = 0 net cash beyond credits
+    // Payback: founding fee (€2500) offset by €2500 credits; remaining cost to recover = 0
+    // But real payback framing: how long until annual savings cover the founding fee
+    const paybackMonths = annualSaving > 0 ? (2500 / annualSaving) * 12 : 999;
+    const fiveYrSaving = annualSaving * 5;
+    const blended = fndCost / sqm;
+
+    document.getElementById('pw-annual-saving').textContent = '€' + fmt(annualSaving);
+    document.getElementById('pw-5yr').textContent = '€' + fmt(fiveYrSaving);
+    document.getElementById('pw-blended').textContent = '€' + blended.toFixed(3) + '/m²';
+
+    let pbText = '';
+    if (paybackMonths < 1) pbText = '< 1 month';
+    else if (paybackMonths < 12) pbText = '~' + Math.ceil(paybackMonths) + ' months';
+    else pbText = '~' + (paybackMonths / 12).toFixed(1) + ' years';
+    document.getElementById('pw-payback').textContent = pbText;
+
+    document.getElementById('pw-note').textContent =
+      'At ' + fmt(sqm) + ' m²/year your €2,500 founding fee is recovered in ' + pbText.toLowerCase() +
+      ' of savings vs standard pricing. Over 5 years you keep €' + fmt(fiveYrSaving) +
+      ' that a standard customer pays — on top of the €2,500 in credits you received on day one.';
+  }
+
+  calcPayback();
+</script>
+</body>
+</html>

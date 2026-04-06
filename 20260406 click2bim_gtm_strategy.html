@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Click2BIM — Go-to-Market Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f; --paper: #f5f2eb; --accent: #c8f542; --accent2: #1a3aff;
+    --muted: #6b6b72; --border: rgba(10,10,15,0.11); --border-strong: rgba(10,10,15,0.22);
+    --bg-card: #fff; --bg-surface: #ede9df;
+    --green: #0F6E56; --amber: #854F0B; --red: #A32D2D;
+    --f-sans: 'Instrument Sans', sans-serif;
+    --f-mono: 'DM Mono', monospace;
+    --f-serif: 'DM Serif Display', serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--f-sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+  /* GRAIN */
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; opacity: 0.35; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(245,242,235,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 14px clamp(20px,4vw,60px); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .logo { font-family: var(--f-mono); font-size: 14px; font-weight: 500; letter-spacing: 0.05em; }
+  .logo span { color: var(--accent2); }
+  .nav-links { display: flex; gap: 4px; flex-wrap: wrap; }
+  .nav-link { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 5px 12px; border-radius: 20px; text-decoration: none; transition: all .15s; border: 0.5px solid transparent; }
+  .nav-link:hover, .nav-link.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* HERO */
+  .hero { padding: clamp(60px,10vw,120px) clamp(20px,4vw,60px) clamp(40px,6vw,80px); position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(26,58,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(26,58,255,0.04) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
+  .hero-inner { position: relative; z-index: 1; max-width: 900px; }
+  .eyebrow { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent2); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--accent2); }
+  h1 { font-family: var(--f-serif); font-size: clamp(40px,7vw,88px); line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 24px; }
+  h1 em { font-style: italic; color: var(--accent2); }
+  .hero-desc { font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 600px; margin-bottom: 32px; }
+  .hero-stats { display: flex; gap: clamp(24px,4vw,60px); flex-wrap: wrap; padding-top: 32px; border-top: 1px solid var(--border); }
+  .hs { }
+  .hs-val { font-family: var(--f-serif); font-size: clamp(28px,4vw,44px); line-height: 1; }
+  .hs-label { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 4px; }
+
+  /* SECTIONS */
+  .section { padding: clamp(48px,8vw,96px) clamp(20px,4vw,60px); }
+  .section.dark { background: var(--ink); color: var(--paper); }
+  .section.light { background: var(--bg-card); }
+  .sh { font-family: var(--f-mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 12px; }
+  .sh::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 160px; }
+  .section.dark .sh { color: rgba(245,242,235,0.35); }
+  .section.dark .sh::after { background: rgba(255,255,255,0.08); }
+  h2 { font-family: var(--f-serif); font-size: clamp(32px,5vw,60px); line-height: 1; letter-spacing: -0.02em; margin-bottom: 20px; }
+  h2 em { font-style: italic; color: var(--accent2); }
+  .section.dark h2 em { color: var(--accent); }
+  .section-desc { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 680px; margin-bottom: 40px; }
+  .section.dark .section-desc { color: rgba(245,242,235,0.55); }
+
+  /* MATURITY MAP */
+  .maturity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; margin-bottom: 32px; }
+  .mat-card { border-radius: 12px; padding: 1.25rem; position: relative; overflow: hidden; }
+  .mat-card.tier-1 { background: rgba(26,58,255,0.07); border: 1.5px solid rgba(26,58,255,0.25); }
+  .mat-card.tier-2 { background: rgba(15,110,86,0.07); border: 1px solid rgba(15,110,86,0.25); }
+  .mat-card.tier-3 { background: rgba(200,245,66,0.12); border: 1px solid rgba(200,245,66,0.35); }
+  .mat-card.tier-4 { background: rgba(10,10,15,0.04); border: 1px solid var(--border); }
+  .mat-tier-label { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .tier-1 .mat-tier-label { color: var(--accent2); }
+  .tier-2 .mat-tier-label { color: var(--green); }
+  .tier-3 .mat-tier-label { color: #3a6600; }
+  .tier-4 .mat-tier-label { color: var(--muted); }
+  .mat-countries { font-family: var(--f-serif); font-size: 22px; line-height: 1.15; margin-bottom: 10px; color: var(--ink); }
+  .mat-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .mat-score { position: absolute; top: 1rem; right: 1rem; font-family: var(--f-mono); font-size: 24px; font-weight: 500; opacity: 0.5; }
+  .tier-1 .mat-score { color: var(--accent2); }
+  .tier-2 .mat-score { color: var(--green); }
+
+  .maturity-bar-wrap { margin: 24px 0; }
+  .mb-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .mb-label { font-family: var(--f-mono); font-size: 12px; width: 140px; flex-shrink: 0; color: var(--ink); }
+  .mb-track { flex: 1; height: 8px; background: var(--bg-surface); border-radius: 4px; overflow: hidden; }
+  .mb-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+  .mb-pct { font-family: var(--f-mono); font-size: 12px; width: 36px; text-align: right; color: var(--muted); }
+  .fill-blue { background: var(--accent2); }
+  .fill-green { background: var(--green); }
+  .fill-amber { background: #BA7517; }
+  .fill-gray { background: rgba(10,10,15,0.25); }
+
+  /* GTM STRATEGY */
+  .gtm-phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 32px; }
+  .gtm-phase { padding: 1.5rem; border-right: 0.5px solid var(--border); background: var(--bg-card); }
+  .gtm-phase:last-child { border-right: none; }
+  .gtm-phase-num { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .gtm-phase-title { font-family: var(--f-serif); font-size: 20px; margin-bottom: 8px; }
+  .gtm-phase-period { font-family: var(--f-mono); font-size: 11px; color: var(--accent2); margin-bottom: 12px; }
+  .gtm-phase-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .gtm-phase.active { background: var(--ink); }
+  .gtm-phase.active .gtm-phase-num { color: rgba(245,242,235,0.35); }
+  .gtm-phase.active .gtm-phase-title { color: var(--paper); }
+  .gtm-phase.active .gtm-phase-period { color: var(--accent); }
+  .gtm-phase.active .gtm-phase-desc { color: rgba(245,242,235,0.5); }
+
+  .channel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin-bottom: 32px; }
+  .channel-card { border: 0.5px solid var(--border); border-radius: 10px; padding: 1.25rem; background: var(--bg-card); }
+  .channel-icon { font-size: 24px; margin-bottom: 12px; }
+  .channel-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .channel-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .channel-effort { font-family: var(--f-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 10px; }
+
+  /* PROSPECTS */
+  .region-tabs { display: flex; gap: 2px; margin-bottom: 1.5rem; background: var(--bg-surface); border-radius: 8px; padding: 3px; border: 0.5px solid var(--border); flex-wrap: wrap; }
+  .rtab { flex: 1; min-width: 80px; padding: 8px 6px; border: none; background: none; border-radius: 6px; font-size: 12px; color: var(--muted); cursor: pointer; font-family: var(--f-sans); transition: all .15s; white-space: nowrap; }
+  .rtab.active { background: var(--ink); color: var(--paper); font-weight: 500; }
+  .rpanel { display: none; }
+  .rpanel.active { display: block; }
+
+  .region-header { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; align-items: start; }
+  @media (max-width: 640px) { .region-header { grid-template-columns: 1fr; } }
+  .region-title { font-family: var(--f-serif); font-size: clamp(24px,4vw,40px); margin-bottom: 8px; }
+  .region-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .region-stats { display: flex; flex-direction: column; gap: 8px; }
+  .rstat { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--bg-surface); border-radius: 7px; font-size: 13px; }
+  .rstat-label { color: var(--muted); font-size: 12px; }
+  .rstat-value { font-weight: 600; font-family: var(--f-mono); font-size: 13px; }
+
+  .priority-strip { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .priority-tag { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.07em; padding: 4px 12px; border-radius: 20px; border: 0.5px solid; }
+  .pt-p1 { background: rgba(26,58,255,0.07); color: var(--accent2); border-color: rgba(26,58,255,0.25); }
+  .pt-p2 { background: rgba(15,110,86,0.07); color: var(--green); border-color: rgba(15,110,86,0.2); }
+  .pt-p3 { background: rgba(10,10,15,0.05); color: var(--muted); border-color: var(--border-strong); }
+
+  .prospects-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .prospects-table thead th { font-family: var(--f-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 400; padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+  .prospects-table tbody tr { border-bottom: 0.5px solid var(--border); transition: background .12s; }
+  .prospects-table tbody tr:last-child { border-bottom: none; }
+  .prospects-table tbody tr:hover { background: var(--bg-surface); }
+  .prospects-table td { padding: 10px 12px; vertical-align: top; }
+  .p-num { font-family: var(--f-mono); font-size: 11px; color: var(--muted); width: 28px; }
+  .p-name { font-weight: 600; color: var(--ink); }
+  .p-city { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .p-type { font-family: var(--f-mono); font-size: 10px; padding: 2px 7px; border-radius: 20px; background: var(--bg-surface); color: var(--muted); white-space: nowrap; }
+  .p-why { font-size: 12px; color: var(--muted); line-height: 1.5; max-width: 280px; }
+  .p-priority { font-family: var(--f-mono); font-size: 11px; }
+  .pr-1 { color: var(--accent2); font-weight: 500; }
+  .pr-2 { color: var(--green); }
+  .pr-3 { color: var(--muted); }
+
+  /* FOUNDING 100 ALLOCATION */
+  .alloc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 24px; }
+  .alloc-card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 10px; padding: 1rem; }
+  .alloc-country { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+  .alloc-seats { font-family: var(--f-serif); font-size: 36px; color: var(--ink); line-height: 1; }
+  .alloc-why { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+  .alloc-bar { height: 3px; background: var(--border); border-radius: 2px; margin-top: 10px; overflow: hidden; }
+  .alloc-bar-fill { height: 100%; border-radius: 2px; background: var(--accent2); }
+
+  /* FOOTER */
+  footer { padding: 36px clamp(20px,4vw,60px); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .footer-logo { font-family: var(--f-mono); font-size: 14px; font-weight: 500; }
+  .footer-logo span { color: var(--accent2); }
+  .footer-note { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+
+  @media (max-width: 600px) {
+    .prospects-table thead { display: none; }
+    .prospects-table td { display: block; padding: 4px 12px; }
+    .prospects-table tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Click<span>2</span>BIM · GTM Strategy</div>
+  <div class="nav-links">
+    <a class="nav-link" href="#market">Market</a>
+    <a class="nav-link" href="#strategy">Strategy</a>
+    <a class="nav-link" href="#prospects">Prospects</a>
+    <a class="nav-link" href="#allocation">Allocation</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Go-to-Market · April 2026</div>
+    <h1>Winning the<br><em>Maturity Gap.</em></h1>
+    <p class="hero-desc">
+      BIM adoption across Europe is not uniform — it is stratified by mandate, labour cost, and institutional ambition. Our go-to-market strategy exploits this stratification: we enter where the pain is most acute, win where the ROI is most obvious, and use early adopters to pull the market forward.
+    </p>
+    <div class="hero-stats">
+      <div class="hs">
+        <div class="hs-val">€1.5B</div>
+        <div class="hs-label">EU Scan-to-BIM market</div>
+      </div>
+      <div class="hs">
+        <div class="hs-val">350K+</div>
+        <div class="hs-label">Addressable firms</div>
+      </div>
+      <div class="hs">
+        <div class="hs-val">70%</div>
+        <div class="hs-label">EU AEC firms using BIM</div>
+      </div>
+      <div class="hs">
+        <div class="hs-val">4 tiers</div>
+        <div class="hs-label">BIM maturity segments</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET ANALYSIS -->
+<section class="section light" id="market">
+  <div class="sh">BIM maturity analysis</div>
+  <h2>The <em>Maturity Gap</em><br>is our market map.</h2>
+  <p class="section-desc">
+    <span style="color:var(--accent2);font-weight:600">The gap is real and significant.</span> Western and Northern EU markets have had BIM mandates for up to 15 years. Eastern EU is 5–10 years behind. This creates both a target sequence and a pricing sensitivity gradient: mature markets have the highest volume, deepest understanding of our value proposition, and the highest labour costs driving automation demand.
+  </p>
+
+  <div class="maturity-grid">
+    <div class="mat-card tier-1">
+      <div class="mat-score">★★★★</div>
+      <div class="mat-tier-label">Tier 1 — Target first</div>
+      <div class="mat-countries">UK · Germany<br>Netherlands · Belgium</div>
+      <div class="mat-desc">BIM mandatory for all public projects. ISO 19650 standard. Labour costs €65–90/hr driving acute automation demand. Renovation and retrofit sectors are mature, scan-to-BIM is standard practice at large firms but remains expensive. Highest concentration of early adopters.</div>
+    </div>
+    <div class="mat-card tier-2">
+      <div class="mat-score">★★★</div>
+      <div class="mat-tier-label">Tier 2 — Target second</div>
+      <div class="mat-countries">Sweden · Norway<br>Denmark · Finland</div>
+      <div class="mat-desc">Global BIM pioneers. Denmark mandated in 2007, Norway in 2010. Open BIM (IFC) standard — critical to support. Highest labour costs in Europe (€80–120/hr). Demand for precision is extreme. Smaller market size but premium pricing potential and strong community networks.</div>
+    </div>
+    <div class="mat-card tier-3">
+      <div class="mat-score">★★</div>
+      <div class="mat-tier-label">Tier 3 — Target third</div>
+      <div class="mat-countries">Italy · Spain<br>France · Portugal</div>
+      <div class="mat-desc">Rapidly maturing via EU Recovery Funds. Italy mandated BIM for all public projects &gt;€1M from 2025. Spain and France building national BIM programmes. High volume of heritage and infrastructure retrofit creates strong scan-to-BIM demand. Price sensitivity higher.</div>
+    </div>
+    <div class="mat-card tier-4">
+      <div class="mat-score">★</div>
+      <div class="mat-tier-label">Tier 4 — Home base + future</div>
+      <div class="mat-countries">Hungary · CEE<br>Poland · Romania</div>
+      <div class="mat-desc">BIM largely limited to large infrastructure and multinational-led commercial projects. Residential and small-scale commercial sectors remain 2D/CAD based. Our home base — valuable for community building and close customer relationships during alpha, but not our primary revenue source in Phase 1.</div>
+    </div>
+  </div>
+
+  <div class="sh" style="margin-top:32px;">BIM adoption rates by country — public sector</div>
+  <div class="maturity-bar-wrap">
+    <div class="mb-row"><span class="mb-label">Norway</span><div class="mb-track"><div class="mb-fill fill-blue" style="width:95%"></div></div><span class="mb-pct">95%</span></div>
+    <div class="mb-row"><span class="mb-label">Denmark</span><div class="mb-track"><div class="mb-fill fill-blue" style="width:92%"></div></div><span class="mb-pct">92%</span></div>
+    <div class="mb-row"><span class="mb-label">UK</span><div class="mb-track"><div class="mb-fill fill-blue" style="width:90%"></div></div><span class="mb-pct">90%</span></div>
+    <div class="mb-row"><span class="mb-label">Finland</span><div class="mb-track"><div class="mb-fill fill-blue" style="width:88%"></div></div><span class="mb-pct">88%</span></div>
+    <div class="mb-row"><span class="mb-label">Netherlands</span><div class="mb-track"><div class="mb-fill fill-blue" style="width:82%"></div></div><span class="mb-pct">82%</span></div>
+    <div class="mb-row"><span class="mb-label">Sweden</span><div class="mb-track"><div class="mb-fill fill-green" style="width:80%"></div></div><span class="mb-pct">80%</span></div>
+    <div class="mb-row"><span class="mb-label">Germany</span><div class="mb-track"><div class="mb-fill fill-green" style="width:75%"></div></div><span class="mb-pct">75%</span></div>
+    <div class="mb-row"><span class="mb-label">Belgium</span><div class="mb-track"><div class="mb-fill fill-green" style="width:68%"></div></div><span class="mb-pct">68%</span></div>
+    <div class="mb-row"><span class="mb-label">France</span><div class="mb-track"><div class="mb-fill fill-amber" style="width:60%"></div></div><span class="mb-pct">60%</span></div>
+    <div class="mb-row"><span class="mb-label">Italy</span><div class="mb-track"><div class="mb-fill fill-amber" style="width:55%"></div></div><span class="mb-pct">55%</span></div>
+    <div class="mb-row"><span class="mb-label">Spain</span><div class="mb-track"><div class="mb-fill fill-amber" style="width:48%"></div></div><span class="mb-pct">48%</span></div>
+    <div class="mb-row"><span class="mb-label">Poland</span><div class="mb-track"><div class="mb-fill fill-gray" style="width:28%"></div></div><span class="mb-pct">28%</span></div>
+    <div class="mb-row"><span class="mb-label">Hungary</span><div class="mb-track"><div class="mb-fill fill-gray" style="width:18%"></div></div><span class="mb-pct">18%</span></div>
+  </div>
+
+  <div style="padding:1rem 1.25rem;border:0.5px solid var(--border);border-radius:10px;background:var(--bg-surface);margin-top:8px;">
+    <div class="sh" style="margin-bottom:8px;">Sector breakdown within BIM-mature markets</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.8;max-width:700px;">
+      <strong style="color:var(--ink)">Government/Infrastructure:</strong> Near-universal in Tier 1/2 markets. Mandatory procurement. Highest volume per project. Slow sales cycles (6–18 months). Not primary Founding 100 targets.<br>
+      <strong style="color:var(--ink)">Commercial:</strong> Very high adoption in Tier 1 markets — office, retail, healthcare, education. BIM managers are key buyers. Medium sales cycles (2–6 months). Prime Founding 100 target.<br>
+      <strong style="color:var(--ink)">Residential:</strong> Growing in Tier 1, nascent in Tier 3/4. Renovation and retrofit projects are the highest-volume scan-to-BIM use case. Individual architect practices are the buyer. Fast sales cycles (&lt;4 weeks). Highest-volume Founding 100 target.
+    </div>
+  </div>
+</section>
+
+<!-- GTM STRATEGY -->
+<section class="section dark" id="strategy">
+  <div class="sh">Go-to-market strategy</div>
+  <h2>A <em>three-phase</em><br>market entry.</h2>
+  <p class="section-desc">The Founding 100 is not just a financing mechanism — it is our GTM strategy. Each founding member is a reference customer, a community anchor, and a word-of-mouth vector in their local market. The phasing below maps how our founding cohort converts into sustainable growth.</p>
+
+  <div class="gtm-phases">
+    <div class="gtm-phase active">
+      <div class="gtm-phase-num">Phase 01</div>
+      <div class="gtm-phase-title">Founding 100</div>
+      <div class="gtm-phase-period">April – October 2026</div>
+      <div class="gtm-phase-desc">Direct outreach to 200 hand-picked prospects across Tier 1 markets. Our target: 100 paid seats. Each founding member is personally onboarded by our team. We focus on firms already doing scan-to-BIM manually — the pain is known and our ROI case is immediate.</div>
+    </div>
+    <div class="gtm-phase">
+      <div class="gtm-phase-num">Phase 02</div>
+      <div class="gtm-phase-title">Community Launch</div>
+      <div class="gtm-phase-period">Q4 2026 – Q2 2027</div>
+      <div class="gtm-phase-desc">Full release. Our founding members become reference customers. We publish LinkedIn case studies and establish a conference presence at Digital Construction Week, BIM World Munich, and BIM Show Live. The referral programme activates. Target: 200 additional paying firms.</div>
+    </div>
+    <div class="gtm-phase">
+      <div class="gtm-phase-num">Phase 03</div>
+      <div class="gtm-phase-title">Market Scale</div>
+      <div class="gtm-phase-period">2027+</div>
+      <div class="gtm-phase-desc">Tier 3 markets (Italy, Spain, France) open as mandates bite. We pursue channel partnerships with Leica, Faro, and Trimble reseller networks who already hold scanner customer relationships. Our target: 1,000+ firms. Enterprise contracts with large survey bureaus.</div>
+    </div>
+    <div class="gtm-phase">
+      <div class="gtm-phase-num">Phase 04</div>
+      <div class="gtm-phase-title">CEE Expansion</div>
+      <div class="gtm-phase-period">2028+</div>
+      <div class="gtm-phase-desc">Eastern EU as BIM mandates spread — Hungary, Poland, Romania, Czech Republic. Our home advantage becomes a local distribution asset. Lower price tolerance but lower CAC. We target the government infrastructure pipeline as EU recovery funds flow.</div>
+    </div>
+  </div>
+
+  <div class="sh" style="margin-top:32px;">Acquisition channels — Founding 100 phase</div>
+  <div class="channel-grid">
+    <div class="channel-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);">
+      <div class="channel-icon">🎯</div>
+      <div class="channel-title" style="color:var(--paper)">Direct outreach</div>
+      <div class="channel-desc" style="color:rgba(245,242,235,0.5)">We send personalised LinkedIn messages and emails to named BIM managers and practice directors at each prospect firm, referencing the specific pain point of their industry and project type. Small volume, high conversion.</div>
+      <div class="channel-effort" style="color:var(--accent)">Priority 1 · High effort · Highest conversion</div>
+    </div>
+    <div class="channel-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);">
+      <div class="channel-icon">🤝</div>
+      <div class="channel-title" style="color:var(--paper)">Scanner manufacturer partners</div>
+      <div class="channel-desc" style="color:rgba(245,242,235,0.5)">We pursue co-marketing agreements with Leica Geosystems, Faro, and Trimble reseller networks. Their customers already own scanners and feel the modelling bottleneck daily. A warm introduction from their equipment supplier carries near-peer credibility.</div>
+      <div class="channel-effort" style="color:var(--accent)">Priority 1 · Medium effort · High leverage</div>
+    </div>
+    <div class="channel-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);">
+      <div class="channel-icon">📣</div>
+      <div class="channel-title" style="color:var(--paper)">BIM community networks</div>
+      <div class="channel-desc" style="color:rgba(245,242,235,0.5)">buildingSMART International, UK BIM Alliance, Dutch Revit User Group, German BIM Cluster. These communities are where early adopters self-identify. Our presence at BIM conferences gives us direct access to the Founding 100 profile firm.</div>
+      <div class="channel-effort" style="color:rgba(200,245,66,0.6)">Priority 2 · Medium effort · Medium reach</div>
+    </div>
+    <div class="channel-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);">
+      <div class="channel-icon">📝</div>
+      <div class="channel-title" style="color:var(--paper)">Thought leadership content</div>
+      <div class="channel-desc" style="color:rgba(245,242,235,0.5)">One definitive piece per month: "The true cost of manual scan-to-BIM", "How we processed 5,000 m² in 4 hours". Published on LinkedIn, shared in BIM communities. Drives inbound from exactly the prospect profile we are targeting.</div>
+      <div class="channel-effort" style="color:rgba(200,245,66,0.6)">Priority 2 · Low effort · Compounding reach</div>
+    </div>
+    <div class="channel-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);">
+      <div class="channel-icon">🔄</div>
+      <div class="channel-title" style="color:var(--paper)">Founding member referrals</div>
+      <div class="channel-desc" style="color:rgba(245,242,235,0.5)">Each founding member earns 500 m² of free credits per successful referral. BIM managers know each other — they attend the same conferences, share the same LinkedIn circles. Peer referral in a trusted community converts at 3–5× our cold outreach rate.</div>
+      <div class="channel-effort" style="color:rgba(200,245,66,0.6)">Priority 2 · Zero effort · High conversion</div>
+    </div>
+    <div class="channel-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);">
+      <div class="channel-icon">🇭🇺</div>
+      <div class="channel-title" style="color:var(--paper)">Hungarian ecosystem</div>
+      <div class="channel-desc" style="color:rgba(245,242,235,0.5)">Our home base. Budapest architecture community, local BIM groups, Magyar Építész Kamara. We reserve 10 founding seats for Hungarian firms to build a local reference base and test our onboarding process at minimal travel cost.</div>
+      <div class="channel-effort" style="color:rgba(245,242,235,0.3)">Priority 3 · Low effort · Strategic anchor</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROSPECTS -->
+<section class="section" id="prospects">
+  <div class="sh">Target prospect lists</div>
+  <h2>Top prospects by<br><em>region.</em></h2>
+  <p class="section-desc">
+    The following lists are curated for our Founding 100 phase — firms that combine BIM maturity, scan-to-BIM workflow volume, renovation/retrofit activity, and decision-maker accessibility. Priority 1 firms are our direct outreach targets in the first 60 days. Priority 2 firms activate after we have established initial traction.
+  </p>
+
+  <div class="priority-strip">
+    <span class="priority-tag pt-p1">● P1 — Immediate outreach</span>
+    <span class="priority-tag pt-p2">● P2 — Month 2–3</span>
+    <span class="priority-tag pt-p3">● P3 — Post-traction</span>
+  </div>
+
+  <div class="region-tabs" id="region-tabs">
+    <button class="rtab active" onclick="showRegion('uk',this)">🇬🇧 UK</button>
+    <button class="rtab" onclick="showRegion('de',this)">🇩🇪 Germany</button>
+    <button class="rtab" onclick="showRegion('nl',this)">🇳🇱 Netherlands</button>
+    <button class="rtab" onclick="showRegion('be',this)">🇧🇪 Belgium</button>
+    <button class="rtab" onclick="showRegion('no',this)">🇳🇴 Nordics</button>
+    <button class="rtab" onclick="showRegion('fr',this)">🇫🇷 France</button>
+    <button class="rtab" onclick="showRegion('it',this)">🇮🇹 Italy</button>
+    <button class="rtab" onclick="showRegion('hu',this)">🇭🇺 Hungary</button>
+  </div>
+
+  <!-- UK -->
+  <div class="rpanel active" id="rpanel-uk">
+    <div class="region-header">
+      <div>
+        <div class="region-title">United Kingdom</div>
+        <p class="region-desc">The most BIM-mature market in Europe. Mandatory since 2016, ISO 19650 adopted as national standard. High labour costs (avg £65/hr for BIM technicians) make our ROI case almost self-evident. We target London, Manchester, and Edinburgh as the primary clusters. Renovation and heritage retrofit sectors are particularly active.</p>
+      </div>
+      <div class="region-stats">
+        <div class="rstat"><span class="rstat-label">BIM mandate since</span><span class="rstat-value">2016</span></div>
+        <div class="rstat"><span class="rstat-label">BIM adoption rate</span><span class="rstat-value">~90%</span></div>
+        <div class="rstat"><span class="rstat-label">Avg BIM labour cost</span><span class="rstat-value">£65/hr</span></div>
+        <div class="rstat"><span class="rstat-label">Founding 100 target seats</span><span class="rstat-value">25 seats</span></div>
+      </div>
+    </div>
+    <table class="prospects-table">
+      <thead><tr><th>#</th><th>Company</th><th>Type</th><th>Why they fit</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="p-num">01</td><td><div class="p-name">Plowman Craven</div><div class="p-city">Hertfordshire + London</div></td><td><span class="p-type">Survey + Scan</span></td><td class="p-why">UK's leading measured survey &amp; scan firm. Already owns the scanning hardware and delivers BIM models manually. We replace their most labour-intensive bottleneck.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">02</td><td><div class="p-name">BDP (Building Design Partnership)</div><div class="p-city">London · Manchester · Belfast</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Top-10 UK architecture firm. Major renovation and public sector portfolio. Strong BIM management function. Ranked #23 globally (WA100).</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">03</td><td><div class="p-name">Purcell</div><div class="p-city">London · 13 UK offices</div></td><td><span class="p-type">Heritage / Conservation</span></td><td class="p-why">Specialist in historic building conservation and renovation. Every project starts with a survey — heavy scan-to-BIM demand. Ranked #67 WA100.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">04</td><td><div class="p-name">Ramboll UK</div><div class="p-city">London · 8 UK offices</div></td><td><span class="p-type">Engineering / BIM</span></td><td class="p-why">Major structural and MEP engineering firm with dedicated BIM management team. Extensive retrofit and refurbishment portfolio in healthcare and education.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">05</td><td><div class="p-name">Stride Treglown</div><div class="p-city">Bristol · London · 9 offices</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Mid-size firm (250 staff) with heavy education and healthcare renovation workload. BIM-first practice. Accessible decision makers.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">06</td><td><div class="p-name">Faithful+Gould (Atkins)</div><div class="p-city">London · nationwide</div></td><td><span class="p-type">Project Management</span></td><td class="p-why">Major project management and cost consultancy. Manages scan-to-BIM workflows across a large portfolio. Could deploy our platform across multiple client projects simultaneously.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">07</td><td><div class="p-name">Scantech Digital</div><div class="p-city">London</div></td><td><span class="p-type">Scan + BIM</span></td><td class="p-why">Dedicated scan-to-BIM firm. Their business model is exactly the bottleneck we solve — volume BIM production from point clouds.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">08</td><td><div class="p-name">Allford Hall Monaghan Morris</div><div class="p-city">London</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Award-winning firm (#43 WA100). Major commercial and mixed-use renovation portfolio. BIM-mature and technically ambitious.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">09</td><td><div class="p-name">AHR Architects</div><div class="p-city">London · Manchester · Birmingham</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Large multi-sector firm with extensive education, healthcare, and residential refurbishment. BIM-first since 2012. High volume of measured surveys per year.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">10</td><td><div class="p-name">Mott MacDonald</div><div class="p-city">Croydon · nationwide</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Global engineering group with major infrastructure and building retrofit programmes. UK BIM lead function actively exploring automation tools.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">11</td><td><div class="p-name">Ridge and Partners</div><div class="p-city">Witney · London · 7 offices</div></td><td><span class="p-type">Architecture + PM</span></td><td class="p-why">Construction consultancy with active BIM adoption across residential and commercial renovation. Strong Midlands and South East presence.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">12</td><td><div class="p-name">Cura Surveys</div><div class="p-city">London</div></td><td><span class="p-type">Survey + Scan</span></td><td class="p-why">London-based scan-to-BIM and measured survey specialist. Delivers Revit models in-house from laser scans. Ideal for testing and founding community.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">13</td><td><div class="p-name">Buro Happold</div><div class="p-city">London · Bath · 8 offices</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Structural and MEP engineering firm with a dedicated digital design team. Major sports, education, and retrofit portfolio. Global BIM programme.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">14</td><td><div class="p-name">Scott Brownrigg</div><div class="p-city">London · Guildford</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">200-person architecture firm with strong commercial and workplace renovation portfolio. BIM Level 2 certified. Active Revit user group participation.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">15</td><td><div class="p-name">Arup UK</div><div class="p-city">London + 10 offices</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Global engineering firm with significant UK renovation and infrastructure retrofit work. BIM pioneer — has its own digital engineering team. Enterprise target.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">16</td><td><div class="p-name">Franklin Ellis Architects</div><div class="p-city">Leicester · London</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">BIM-led practice with active renovation and mixed-use portfolio. Accessible decision maker. Good fit for Founding member community role.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">17</td><td><div class="p-name">Stepnell</div><div class="p-city">Rugby · London</div></td><td><span class="p-type">Design-Build</span></td><td class="p-why">Design-build contractor with internal BIM capability and active education and heritage refurbishment pipeline. Buys scan-to-BIM as a service currently.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">18</td><td><div class="p-name">Hawkins\Brown</div><div class="p-city">London · Manchester</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Major architecture firm with significant education and healthcare renovation portfolio. BIM-first. 350 staff. Strong digital practice leadership.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">19</td><td><div class="p-name">Gleeds</div><div class="p-city">London · UK-wide</div></td><td><span class="p-type">Project Management</span></td><td class="p-why">Construction consultancy managing BIM deliverables across large infrastructure and commercial retrofit programmes. Could deploy our platform across their full client portfolio.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">20</td><td><div class="p-name">Feilden Clegg Bradley Studios</div><div class="p-city">Bath · London · Manchester</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Specialist in sustainable retrofit and heritage renovation. BIM-led practice. Ranked #84 WA100. Strong community of practice — influential in UK BIM circles.</td><td class="p-priority pr-2">P2</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GERMANY -->
+  <div class="rpanel" id="rpanel-de">
+    <div class="region-header">
+      <div>
+        <div class="region-title">Germany</div>
+        <p class="region-desc">BIM mandatory for federal infrastructure since 2020, expanding to all public buildings from €0.5M by 2025. Germany's BIM4INFRA programme has created strong institutional demand and a maturing private sector following the public lead. High labour costs (avg €70/hr) and a culture of precision engineering make our quality proposition compelling. We prioritise Berlin, Munich, Düsseldorf, Hamburg, and Frankfurt as our primary cities.</p>
+      </div>
+      <div class="region-stats">
+        <div class="rstat"><span class="rstat-label">BIM mandate since</span><span class="rstat-value">2020</span></div>
+        <div class="rstat"><span class="rstat-label">BIM adoption rate</span><span class="rstat-value">~75%</span></div>
+        <div class="rstat"><span class="rstat-label">Avg BIM labour cost</span><span class="rstat-value">€70/hr</span></div>
+        <div class="rstat"><span class="rstat-label">Founding 100 target seats</span><span class="rstat-value">20 seats</span></div>
+      </div>
+    </div>
+    <table class="prospects-table">
+      <thead><tr><th>#</th><th>Company</th><th>Type</th><th>Why they fit</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="p-num">01</td><td><div class="p-name">HPP Architekten</div><div class="p-city">Düsseldorf · 13 offices</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">One of Germany's largest firms (480+ staff). Active BIM programme across commercial, healthcare, and urban renovation. Strong Revit practice.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">02</td><td><div class="p-name">RKW Architektur+</div><div class="p-city">Düsseldorf · Berlin · 5 offices</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">~400 staff firm offering BIM planning as a core service. Residential, commercial and renovation portfolio. Explicitly markets BIM capability to clients.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">03</td><td><div class="p-name">ATP Architekten Ingenieure</div><div class="p-city">Berlin · Munich · Frankfurt + 3 more</div></td><td><span class="p-type">Architecture + Engineering</span></td><td class="p-why">Integral planner for lifecycle-oriented buildings. ~1,000 staff. Heavily BIM-dependent. Active renovation and industrial retrofit pipeline.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">04</td><td><div class="p-name">gmp von Gerkan Marg und Partner</div><div class="p-city">Hamburg · Berlin · 5 offices</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Top 20 global firm (WA100 #16). Major renovation and infrastructure portfolio including airport and transport hub work. High-volume scan-to-BIM need.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">05</td><td><div class="p-name">Auer Weber</div><div class="p-city">Munich · Stuttgart</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Focus on public institutions, education, culture, and renovation. BIM-led design process. Key accounts include universities and cultural institutions — high as-built scanning demand.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">06</td><td><div class="p-name">Wenzel+Wenzel</div><div class="p-city">Karlsruhe · Berlin + 13 offices</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">350+ staff. Renovation specialist — James Simon Gallery, Mercedes Museum. Scan-to-BIM is a core delivery requirement for their heritage and museum projects.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">07</td><td><div class="p-name">Brückner & Brückner Architekten</div><div class="p-city">Tirschenreuth · Würzburg</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Specialist in conversions and change of use. Kulturspeicher, thermal baths renovation. Every project is an existing building — ideal scan-to-BIM use case.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">08</td><td><div class="p-name">Drees & Sommer</div><div class="p-city">Stuttgart · nationwide</div></td><td><span class="p-type">Project Management</span></td><td class="p-why">Germany's leading construction consulting firm. Active BIM consulting practice. Managing complex renovation programmes across public and commercial sectors.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">09</td><td><div class="p-name">Gerber Architekten</div><div class="p-city">Dortmund</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Large-scale public and educational building specialist. Active renovation and campus BIM work. 200+ staff. BIM programme since 2015.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">10</td><td><div class="p-name">Kadawittfeldarchitektur</div><div class="p-city">Aachen · Berlin</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">160-person interdisciplinary firm. Mixed use and commercial renovation. Active BIM and VR workflow. Strong digital practice leadership.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">11</td><td><div class="p-name">Bilfinger HSG Facility Management</div><div class="p-city">Mannheim · Frankfurt</div></td><td><span class="p-type">FM / Digital Twin</span></td><td class="p-why">Major facility management firm adopting BIM for digital twin and FM. Needs as-built BIM models at scale for existing building stock. High volume potential.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">12</td><td><div class="p-name">Sweco Deutschland</div><div class="p-city">Berlin · Munich + offices</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">German arm of Nordic BIM leader. BIM-mature by parent company mandate. Major infrastructure and building renovation portfolio.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">13</td><td><div class="p-name">JSWD Architekten</div><div class="p-city">Cologne</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">140-person firm. Commercial and public renovation portfolio. International collaborations suggesting openness to new tools. Accessible partner-level decision makers.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">14</td><td><div class="p-name">Sauerbruch Hutton</div><div class="p-city">Berlin</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Award-winning firm with strong energy-efficient renovation focus. BIM-led. Sustainable retrofit projects demand accurate as-built data.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">15</td><td><div class="p-name">BIMQ / BIMconsult (BIM Cluster Germany)</div><div class="p-city">Berlin</div></td><td><span class="p-type">BIM Consultancy</span></td><td class="p-why">BIM consultancy and standards body. Founding member here = direct access to the German BIM professional network and thought leadership positioning.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">16</td><td><div class="p-name">Vermessungsbüro Geiger</div><div class="p-city">Munich region</div></td><td><span class="p-type">Survey + Scan</span></td><td class="p-why">Representative of Germany's survey bureau network (>500 firms). First mover in this segment creates a reference for the entire sector.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">17</td><td><div class="p-name">BAM Deutschland</div><div class="p-city">Hamburg · nationwide</div></td><td><span class="p-type">Design-Build</span></td><td class="p-why">Major contractor with internal BIM function. Manages renovation programmes for public and private clients. Could deploy our platform across multiple simultaneous projects.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">18</td><td><div class="p-name">Ingenhoven Architects</div><div class="p-city">Düsseldorf</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Known for sustainable, complex renovation and mixed-use projects. BIM-led practice. Smaller firm but influential in German sustainability architecture circles.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">19</td><td><div class="p-name">Barkow Leibinger</div><div class="p-city">Berlin · New York</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Research-led practice. Interested in emerging technology integration. Smaller firm but strong community influence — good for thought leadership co-creation.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">20</td><td><div class="p-name">Fraunhofer IBP / IAO (Research)</div><div class="p-city">Stuttgart · Munich</div></td><td><span class="p-type">Research Institute</span></td><td class="p-why">Germany's leading built environment research institutes. Partnership creates academic credibility, potential BIM benchmark studies, and government sector access.</td><td class="p-priority pr-2">P2</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NETHERLANDS -->
+  <div class="rpanel" id="rpanel-nl">
+    <div class="region-header">
+      <div>
+        <div class="region-title">Netherlands</div>
+        <p class="region-desc">BIM demanded for government integrated design contracts since 2011. The Dutch government is one of Europe's most digitally progressive construction clients. Strong Open BIM culture (IFC-first). The Netherlands is also home to Arcadis (#2 globally by WA100) and world-renowned firms like MVRDV, OMA, and Mecanoo. Dense, accessible market with strong BIM community networks.</p>
+      </div>
+      <div class="region-stats">
+        <div class="rstat"><span class="rstat-label">BIM mandate since</span><span class="rstat-value">2011</span></div>
+        <div class="rstat"><span class="rstat-label">BIM adoption rate</span><span class="rstat-value">~82%</span></div>
+        <div class="rstat"><span class="rstat-label">Avg BIM labour cost</span><span class="rstat-value">€65/hr</span></div>
+        <div class="rstat"><span class="rstat-label">Founding 100 target seats</span><span class="rstat-value">18 seats</span></div>
+      </div>
+    </div>
+    <table class="prospects-table">
+      <thead><tr><th>#</th><th>Company</th><th>Type</th><th>Why they fit</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="p-num">01</td><td><div class="p-name">Arcadis Netherlands</div><div class="p-city">Amsterdam · Rotterdam</div></td><td><span class="p-type">Architecture + Engineering</span></td><td class="p-why">#2 globally by WA100. Netherlands HQ. Massive renovation and infrastructure portfolio. BIM at the core of every project. Enterprise prospect — but a founding seat here is a landmark win.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">02</td><td><div class="p-name">Mecanoo</div><div class="p-city">Delft</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">International award-winning firm. Major cultural, educational, and residential renovation portfolio. Heavy BIM user. Influential in Dutch and international architectural community.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">03</td><td><div class="p-name">KAAN Architecten</div><div class="p-city">Rotterdam</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Large mixed-use and institutional firm. Known for complex renovation and adaptive reuse. BIM-first practice with a large technical team.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">04</td><td><div class="p-name">Royal HaskoningDHV</div><div class="p-city">Amersfoort · Rotterdam + offices</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Major Dutch engineering firm with BIM mandate across all projects. Extensive infrastructure and building renovation practice. Strategic long-term prospect.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">05</td><td><div class="p-name">Bimforce</div><div class="p-city">Netherlands (Dutch Revit Standard co-author)</div></td><td><span class="p-type">BIM Consultancy</span></td><td class="p-why">Author of the Dutch Revit Standard. Chairman of the Dutch Revit User Group. A founding member here = direct access to every Revit-using firm in the Netherlands.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">06</td><td><div class="p-name">Cepezed</div><div class="p-city">Delft</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Innovative sustainable architecture practice. Renovation and adaptive reuse specialist. 60,000 m² Medical Centre Alkmaar as reference project. BIM-native.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">07</td><td><div class="p-name">BIMservice NL</div><div class="p-city">Netherlands</div></td><td><span class="p-type">BIM Services</span></td><td class="p-why">Nearshoring BIM team serving Dutch architecture firms. Their business model is BIM production at volume — we directly accelerate their delivery capacity.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">08</td><td><div class="p-name">Witteveen+Bos</div><div class="p-city">Deventer · Amsterdam</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Major Dutch engineering consultancy. Water, infrastructure, and urban development. BIM-led. Active renovation and as-built documentation programme.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">09</td><td><div class="p-name">BIMcollab</div><div class="p-city">Eindhoven</div></td><td><span class="p-type">BIM Software / Network</span></td><td class="p-why">BIM coordination software platform with a global AEC customer base. A partnership here gives direct marketing access to thousands of European BIM practitioners.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">10</td><td><div class="p-name">Dura Vermeer</div><div class="p-city">Hoofddorp</div></td><td><span class="p-type">Design-Build</span></td><td class="p-why">Large construction group with internal BIM programme. Renovation and sustainable retrofit major focus area. Uses scan-to-BIM on refurbishment projects regularly.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">11</td><td><div class="p-name">NEXT Architects</div><div class="p-city">Amsterdam</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">International practice. Infrastructure, public and mixed-use renovation. BIM-led. Smaller firm — accessible decision makers and willing to pilot new tools.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">12</td><td><div class="p-name">Damen Architecten</div><div class="p-city">Netherlands</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Mid-size firm with active residential renovation and social housing portfolio. High-volume scanning demand as social housing stock undergoes energy retrofit.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">13</td><td><div class="p-name">BIM2BUILD</div><div class="p-city">Netherlands</div></td><td><span class="p-type">BIM Services</span></td><td class="p-why">BIM modelling specialist already using 3D scans to produce Revit models for Amsterdam municipality and others. Direct competitor-adjacent — but also the perfect test case for our speed advantage.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">14</td><td><div class="p-name">Heijmans NV</div><div class="p-city">Rosmalen</div></td><td><span class="p-type">Design-Build</span></td><td class="p-why">Listed Dutch construction group with large residential and infrastructure renovation pipeline. Active BIM programme. Enterprise-scale opportunity.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">15</td><td><div class="p-name">Architecten Combinatie</div><div class="p-city">Rotterdam</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Specialist in social housing renovation. Government retrofit mandate driving massive scan-to-BIM demand for existing social housing stock.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">16</td><td><div class="p-name">Bureau Veritas Netherlands</div><div class="p-city">Rotterdam</div></td><td><span class="p-type">Survey / Inspection</span></td><td class="p-why">Global inspection and survey firm. BIM-based building inspection growing fast. Scan data into BIM is a core workflow need for their as-built documentation services.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">17</td><td><div class="p-name">MVSA Architects</div><div class="p-city">Amsterdam</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Commercial and residential renovation firm. Adaptive reuse specialist. BIM-led design process.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">18</td><td><div class="p-name">Inbo Architects</div><div class="p-city">Woerden · Amsterdam</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Interior architecture and workplace renovation specialist. High volume of office fit-out and retrofit projects — each requiring accurate as-built BIM. Strong BIM programme.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">19</td><td><div class="p-name">Pieters Bouwtechniek</div><div class="p-city">Amsterdam · Haarlem</div></td><td><span class="p-type">Structural Engineering</span></td><td class="p-why">Structural engineering firm with active renovation portfolio. Already commissioning Revit models from 3D scans per BIM2BUILD case study. Direct product-market fit.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">20</td><td><div class="p-name">BBN Adviseurs</div><div class="p-city">The Hague · Amsterdam</div></td><td><span class="p-type">BIM / FM Consultancy</span></td><td class="p-why">BIM and facility management consultancy. Works with public sector clients adopting BIM for building management. Gateway to government and public sector portfolio.</td><td class="p-priority pr-2">P2</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BELGIUM -->
+  <div class="rpanel" id="rpanel-be">
+    <div class="region-header">
+      <div>
+        <div class="region-title">Belgium</div>
+        <p class="region-desc">No mandatory BIM yet at national level but very active BIM community and strong government push at regional (Flanders, Wallonia) level. Brussels is a major AEC market by virtue of EU institutions and corporate headquarters. Belgium is often overlooked in GTM strategies — which means lower competition and more accessible decision makers. Brussels, Antwerp, and Ghent are the primary clusters.</p>
+      </div>
+      <div class="region-stats">
+        <div class="rstat"><span class="rstat-label">BIM mandate</span><span class="rstat-value">Regional push</span></div>
+        <div class="rstat"><span class="rstat-label">BIM adoption rate</span><span class="rstat-value">~68%</span></div>
+        <div class="rstat"><span class="rstat-label">Avg BIM labour cost</span><span class="rstat-value">€58/hr</span></div>
+        <div class="rstat"><span class="rstat-label">Founding 100 target seats</span><span class="rstat-value">10 seats</span></div>
+      </div>
+    </div>
+    <table class="prospects-table">
+      <thead><tr><th>#</th><th>Company</th><th>Type</th><th>Why they fit</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="p-num">01</td><td><div class="p-name">Jaspers-Eyers Architects</div><div class="p-city">Brussels</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Belgium's largest architecture firm. Major commercial and mixed-use renovation portfolio across Brussels and beyond. BIM-led. Accessible senior architects.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">02</td><td><div class="p-name">Tractebel (Engie)</div><div class="p-city">Brussels</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Major engineering group with energy infrastructure and building renovation portfolio. BIM mandatory across all projects. Enterprise-scale scan-to-BIM demand.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">03</td><td><div class="p-name">Styfhals Architects</div><div class="p-city">Antwerp</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Active renovation and heritage restoration firm. Antwerp's historic core generates high scan-to-BIM demand. BIM-native practice.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">04</td><td><div class="p-name">Arup Belgium</div><div class="p-city">Brussels</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Belgian arm of global engineering firm. Active BIM programme aligned with parent company. Infrastructure and building renovation in Brussels and Wallonia.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">05</td><td><div class="p-name">Cenergie</div><div class="p-city">Antwerp</div></td><td><span class="p-type">BIM / Energy</span></td><td class="p-why">BIM and energy consultancy. Works on large-scale building renovation programmes for public sector and social housing. High scan-to-BIM frequency.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">06</td><td><div class="p-name">BIM ONE Belgium</div><div class="p-city">Brussels</div></td><td><span class="p-type">BIM Consultancy</span></td><td class="p-why">BIM management and implementation consultancy. Works with public and private sector clients. Founding member = access to their entire client network.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">07</td><td><div class="p-name">Samyn and Partners</div><div class="p-city">Brussels</div></td><td><span class="p-type">Architecture + Engineering</span></td><td class="p-why">Integrated architecture and engineering firm. Major cultural and public building portfolio including renovation. BIM-active and technically sophisticated.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">08</td><td><div class="p-name">MBG Group</div><div class="p-city">Ghent · Brussels</div></td><td><span class="p-type">Survey + BIM</span></td><td class="p-why">Belgian survey and BIM services firm. Already processing point clouds into BIM models manually. Direct product-market fit for our speed advantage.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">09</td><td><div class="p-name">Buroform</div><div class="p-city">Brussels</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Commercial interior and office renovation specialist. High volume of fit-out and refurbishment projects in Brussels corporate market. Accessible.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">10</td><td><div class="p-name">Sweco Belgium</div><div class="p-city">Brussels · Ghent</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Belgian arm of Sweco, Nordic BIM leader. BIM by corporate mandate. Infrastructure, water, and building renovation across Belgium.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">11</td><td><div class="p-name">A2O Architecten</div><div class="p-city">Ghent</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Education and public building renovation specialist in Flanders. Actively implementing BIM workflows. Government client base gives stable project flow.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">12</td><td><div class="p-name">Democo</div><div class="p-city">Hasselt · Brussels</div></td><td><span class="p-type">Design-Build</span></td><td class="p-why">Design-build contractor with internal BIM team. Active renovation and fit-out pipeline. BIM coordinator role well-established.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">13</td><td><div class="p-name">Seco</div><div class="p-city">Brussels</div></td><td><span class="p-type">Engineering / FM</span></td><td class="p-why">Technical and energy management consultancy. Growing BIM-based FM portfolio for commercial real estate. Scan-to-BIM for as-built documentation is a key service gap.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">14</td><td><div class="p-name">Daidalos Peutz</div><div class="p-city">Mechelen</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Building physics and sustainability engineering. Major renovation and retrofit specialist. Needs accurate as-built BIM for energy modelling.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">15</td><td><div class="p-name">Origin Architecture & Engineering</div><div class="p-city">Brussels</div></td><td><span class="p-type">Architecture + Engineering</span></td><td class="p-why">Integrated design firm with public and cultural renovation portfolio. BIM-led. Accessible founding member prospect.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">16</td><td><div class="p-name">Boydens Engineering</div><div class="p-city">Ghent · Brussels + offices</div></td><td><span class="p-type">MEP Engineering</span></td><td class="p-why">MEP specialist with strong BIM programme. Renovation-heavy portfolio across healthcare and public buildings. Needs accurate as-built geometry from scans.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">17</td><td><div class="p-name">UTIL nv</div><div class="p-city">Brussels</div></td><td><span class="p-type">Infrastructure</span></td><td class="p-why">Infrastructure and underground utility firm using 3D scanning for subsurface mapping. BIM integration of scan data is an active workflow need.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">18</td><td><div class="p-name">Ingenium</div><div class="p-city">Ghent</div></td><td><span class="p-type">MEP / BIM Engineering</span></td><td class="p-why">Technical engineering consultancy with dedicated BIM team. Active in sustainable renovation and healthcare. Measurable scan-to-BIM workflow.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">19</td><td><div class="p-name">Bureau d'études Greisch</div><div class="p-city">Liège</div></td><td><span class="p-type">Structural Engineering</span></td><td class="p-why">Major structural engineering firm in Wallonia. Heritage and infrastructure renovation in Liège region. Open to early-adopter tools.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">20</td><td><div class="p-name">Flanders Innovation & Entrepreneurship (VLAIO)</div><div class="p-city">Brussels</div></td><td><span class="p-type">Government / Innovation</span></td><td class="p-why">Flanders' innovation agency. Partnership here could unlock grant support for Belgian founding members and generate PR in the Flemish AEC ecosystem.</td><td class="p-priority pr-2">P2</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NORDICS -->
+  <div class="rpanel" id="rpanel-no">
+    <div class="region-header">
+      <div>
+        <div class="region-title">Nordics (Norway · Sweden · Denmark · Finland)</div>
+        <p class="region-desc">Global BIM leaders. Denmark mandated in 2007, Norway in 2010, Finland in 2007. Open BIM (IFC) is the default standard — our IFC export is a prerequisite, not a differentiator. The highest labour costs in Europe (€80–120/hr) create the most compelling ROI case we can make anywhere in Europe. Technical sophistication is high — prospects will scrutinise our product deeply before committing. Sweco, the world's 5th largest architecture firm by headcount, is headquartered in Stockholm.</p>
+      </div>
+      <div class="region-stats">
+        <div class="rstat"><span class="rstat-label">Earliest BIM mandate</span><span class="rstat-value">2007 (DK/FI)</span></div>
+        <div class="rstat"><span class="rstat-label">BIM adoption rate</span><span class="rstat-value">88–95%</span></div>
+        <div class="rstat"><span class="rstat-label">Avg BIM labour cost</span><span class="rstat-value">€90–120/hr</span></div>
+        <div class="rstat"><span class="rstat-label">Founding 100 target seats</span><span class="rstat-value">15 seats</span></div>
+      </div>
+    </div>
+    <table class="prospects-table">
+      <thead><tr><th>#</th><th>Company</th><th>Type</th><th>Why they fit</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="p-num">01</td><td><div class="p-name">Sweco AB</div><div class="p-city">Stockholm · pan-Nordic</div></td><td><span class="p-type">Architecture + Engineering</span></td><td class="p-why">World's 5th largest firm by architect count (1,504 architects). Nordic BIM leader by default. Enterprise-scale prospect. Any division entry could scale to group-wide adoption.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">02</td><td><div class="p-name">Ramboll Group</div><div class="p-city">Copenhagen · pan-Nordic</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Major Nordic engineering group. BIM mandatory. Huge renovation and infrastructure retrofit portfolio across all Nordic countries. BIM managers are key decision makers.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">03</td><td><div class="p-name">COWI A/S</div><div class="p-city">Kongens Lyngby · Denmark</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Major Nordic/global engineering consultancy. BIM at the core. Bridges, tunnels, and building renovation. High-volume scan-to-BIM for infrastructure assessment.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">04</td><td><div class="p-name">Henning Larsen Architects</div><div class="p-city">Copenhagen</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Major Danish architecture firm. Cultural and civic renovation. BIM-native. Known for demanding technical excellence — a reference here carries weight across the region.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">05</td><td><div class="p-name">3XN / GXN</div><div class="p-city">Copenhagen</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Innovation-led architecture firm. GXN is their sustainability research arm. Actively exploring new digital tools. Early adopter profile. BIM-advanced.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">06</td><td><div class="p-name">Multiconsult</div><div class="p-city">Oslo</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Norway's largest engineering consultancy. BIM mandatory (Statsbygg client base). Major renovation and infrastructure programme. Statsbygg projects = IFC-first requirement.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">07</td><td><div class="p-name">Norconsult</div><div class="p-city">Sandvika · pan-Norway</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Major Norwegian multi-discipline engineering firm. BIM-mandatory client base. Active in building renovation, transport, and infrastructure — all high scan-to-BIM demand.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">08</td><td><div class="p-name">White Arkitekter</div><div class="p-city">Stockholm · pan-Sweden</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Sweden's largest architecture firm. Major renovation and adaptive reuse portfolio. BIM-led. A founding member here positions us within the entire Swedish BIM community.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">09</td><td><div class="p-name">Tengbom</div><div class="p-city">Stockholm · 7 Swedish offices</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Major Swedish firm. Healthcare, education, and urban renovation. 600+ staff. BIM programme since 2010. Very high scan-to-BIM workflow volume.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">10</td><td><div class="p-name">Arkitema Architects</div><div class="p-city">Copenhagen · pan-Scandinavia</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Major Danish/Nordic firm. Education, healthcare, and housing renovation. BIM-led. Strong presence in three Nordic countries — a single founding seat has regional reach.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">11</td><td><div class="p-name">Arup Nordic</div><div class="p-city">Copenhagen · Stockholm</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Nordic arm of global engineering firm. BIM-advanced by group mandate. Infrastructure and building renovation programme.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">12</td><td><div class="p-name">Bjerking</div><div class="p-city">Uppsala · Stockholm</div></td><td><span class="p-type">Architecture + Engineering</span></td><td class="p-why">Swedish firm known for renovation of university and municipal buildings. High scan-to-BIM demand. Accessible partner-level decision makers.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">13</td><td><div class="p-name">Granlund</div><div class="p-city">Helsinki</div></td><td><span class="p-type">BIM / MEP Engineering</span></td><td class="p-why">Finland's leading building services engineering and BIM consultancy. BIM pioneer (Senate Properties mandate from 2007). Direct access to Finnish public sector BIM network.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">14</td><td><div class="p-name">Nordic Office of Architecture</div><div class="p-city">Oslo</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Major Norwegian practice. Healthcare and public building renovation. Statsbygg client — Open BIM (IFC) mandatory. High-precision scan-to-BIM demand.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">15</td><td><div class="p-name">Skanska Scandinavia (BIM division)</div><div class="p-city">Stockholm · pan-Nordic</div></td><td><span class="p-type">Design-Build</span></td><td class="p-why">One of Europe's largest contractors. Nordic BIM programme is industry-leading. Enterprise-scale scan-to-BIM demand across renovation and refurbishment contracts.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">16</td><td><div class="p-name">Søren Jensen</div><div class="p-city">Aarhus · Copenhagen</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Danish multi-discipline engineering firm. BIM-first. Renovation of educational and commercial buildings. Accessible and innovative culture.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">17</td><td><div class="p-name">Kruse Smith</div><div class="p-city">Kristiansand · Norway</div></td><td><span class="p-type">Design-Build</span></td><td class="p-why">Major Norwegian construction group. Internal BIM programme. Active renovation and infrastructure portfolio. Statsbygg-compliant workflows.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">18</td><td><div class="p-name">EKJ Rådgivende Ingeniører</div><div class="p-city">Copenhagen</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Danish MEP engineering firm. Active in educational and cultural renovation. BIM-led. Accessible founding prospect.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">19</td><td><div class="p-name">Rejlers</div><div class="p-city">Stockholm · pan-Sweden</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Multi-discipline Swedish engineering consultancy. Active BIM programme. Infrastructure and industrial renovation portfolio.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">20</td><td><div class="p-name">buildingSMART Scandinavia</div><div class="p-city">Oslo / Copenhagen</div></td><td><span class="p-type">Standards Body</span></td><td class="p-why">Nordic chapter of buildingSMART International. A relationship here grants immediate access to the entire Nordic Open BIM community and validates our IFC credentials across the region.</td><td class="p-priority pr-1">P1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FRANCE -->
+  <div class="rpanel" id="rpanel-fr">
+    <div class="region-header">
+      <div>
+        <div class="region-title">France</div>
+        <p class="region-desc">France's Plan BIM 2022 created institutional momentum but adoption remains uneven. New construction BIM is widespread; renovation and existing building BIM lags significantly. This gap is our opportunity — France has one of Europe's largest existing building stocks but the BIM tools to efficiently document it are underdeveloped. The Grand Paris infrastructure programme is creating strong demand. The language barrier is real — we will need French-language materials and a French-speaking business development contact for Phase 3.</p>
+      </div>
+      <div class="region-stats">
+        <div class="rstat"><span class="rstat-label">National BIM plan</span><span class="rstat-value">Plan BIM 2022</span></div>
+        <div class="rstat"><span class="rstat-label">BIM adoption rate</span><span class="rstat-value">~60%</span></div>
+        <div class="rstat"><span class="rstat-label">Avg BIM labour cost</span><span class="rstat-value">€55/hr</span></div>
+        <div class="rstat"><span class="rstat-label">Founding 100 target seats</span><span class="rstat-value">8 seats</span></div>
+      </div>
+    </div>
+    <table class="prospects-table">
+      <thead><tr><th>#</th><th>Company</th><th>Type</th><th>Why they fit</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="p-num">01</td><td><div class="p-name">AREP</div><div class="p-city">Paris</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Architecture subsidiary of SNCF. Major transport infrastructure renovation and station modernisation. BIM mandatory for SNCF projects. High-volume scan-to-BIM demand at rail infrastructure scale.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">02</td><td><div class="p-name">Egis Group</div><div class="p-city">Paris</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Major French engineering consultancy. Infrastructure, transport, and building renovation. BIM programme across all French public works projects.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">03</td><td><div class="p-name">Bouygues Construction (BIM dept)</div><div class="p-city">Guyancourt</div></td><td><span class="p-type">Design-Build</span></td><td class="p-why">France's largest contractor. Internal BIM programme across renovation and new construction. Enterprise-scale scan-to-BIM demand. Long sales cycle but transformative if won.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">04</td><td><div class="p-name">Vinci Construction (BIM)</div><div class="p-city">Rueil-Malmaison</div></td><td><span class="p-type">Design-Build</span></td><td class="p-why">France's #1 construction group. BIM programme active across renovation projects in public and commercial sectors. Long cycle but transformative scale.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">05</td><td><div class="p-name">Atelier 2/3/4</div><div class="p-city">Paris</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Specialist in renovation and heritage restoration. BIM-led. Every project is an existing building — frequent need for accurate as-built BIM from scan data.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">06</td><td><div class="p-name">Artelia Group</div><div class="p-city">Grenoble · Paris</div></td><td><span class="p-type">Engineering / PM</span></td><td class="p-why">Major French multi-discipline engineering firm. BIM programme in renovation and infrastructure. Active in Grand Paris and urban regeneration projects.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">07</td><td><div class="p-name">Plan BIM 2025 / PTNB network</div><div class="p-city">Paris</div></td><td><span class="p-type">Industry Body</span></td><td class="p-why">The French national BIM programme network. A partnership here positions us within the official French BIM ecosystem and provides access to certified BIM practitioners.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">08</td><td><div class="p-name">Valode & Pistre Architectes</div><div class="p-city">Paris</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Major French firm. Commercial and mixed-use renovation in Paris. BIM-active. Accessible partner-level decision makers for founding relationship.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">09</td><td><div class="p-name">Arcora / Icade</div><div class="p-city">Paris</div></td><td><span class="p-type">Real Estate / BIM</span></td><td class="p-why">French real estate group with BIM-based property management. Large existing building portfolio requiring as-built BIM models for FM and renovation planning.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">10</td><td><div class="p-name">Soberex / Surveying Co</div><div class="p-city">Paris · Lyon</div></td><td><span class="p-type">Survey + Scan</span></td><td class="p-why">French survey and scan firm already delivering BIM models from laser scans. Exactly the workflow we accelerate. Our first mover in France with this profile creates a strong regional reference.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">11</td><td><div class="p-name">SNC-Lavalin Atkins France</div><div class="p-city">Paris</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Major engineering consultancy active in French infrastructure renovation. BIM-mandatory client base.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">12</td><td><div class="p-name">CSTB (Centre Scientifique et Technique du Bâtiment)</div><div class="p-city">Marne-la-Vallée</div></td><td><span class="p-type">Research / Certification</span></td><td class="p-why">France's national construction research centre. Partnership here could unlock BIM certification alignment and credibility with French public sector clients.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">13</td><td><div class="p-name">François Leclercq Architectes</div><div class="p-city">Paris</div></td><td><span class="p-type">Architecture / Urban</span></td><td class="p-why">Urban regeneration and large-scale renovation specialist. Active in Grand Paris metro area projects. BIM-led design process.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">14</td><td><div class="p-name">Setec Group</div><div class="p-city">Paris</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Major structural and infrastructure engineering firm. Grand Paris engineering partner. BIM-mandatory. High scan-to-BIM demand for underground and infrastructure retrofit.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">15</td><td><div class="p-name">Agence Nicolas Michelin & Associés</div><div class="p-city">Paris</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Renovation and mixed-use specialist. Active Paris urban regeneration portfolio. BIM-active and accessible.</td><td class="p-priority pr-3">P3</td></tr>
+        <tr><td class="p-num">16–20</td><td><div class="p-name">French market note</div><div class="p-city"></div></td><td><span class="p-type">Strategy</span></td><td class="p-why">France requires French-language outreach and ideally a French-speaking business development contact. We recommend a Budapest-to-Paris trip targeting P1 prospects in Month 2–3. We reserve 8 seats — we fill P1s first and use P2s as backfill.</td><td class="p-priority pr-3">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ITALY -->
+  <div class="rpanel" id="rpanel-it">
+    <div class="region-header">
+      <div>
+        <div class="region-title">Italy</div>
+        <p class="region-desc">BIM mandatory for all public projects exceeding €1M from January 2025. Italy has the richest existing building stock in Europe — vast quantities of historic and pre-war buildings undergoing energy retrofit and seismic upgrading under EU recovery funds. The combination of mandatory BIM, heritage renovation volume, and EU money flowing into infrastructure creates a near-perfect scan-to-BIM demand environment. Language barrier and slower adoption culture mean Tier 3 timing (2027+) is appropriate.</p>
+      </div>
+      <div class="region-stats">
+        <div class="rstat"><span class="rstat-label">BIM mandate since</span><span class="rstat-value">2025 (all &gt;€1M)</span></div>
+        <div class="rstat"><span class="rstat-label">BIM adoption rate</span><span class="rstat-value">~55%</span></div>
+        <div class="rstat"><span class="rstat-label">Avg BIM labour cost</span><span class="rstat-value">€45/hr</span></div>
+        <div class="rstat"><span class="rstat-label">Founding 100 target seats</span><span class="rstat-value">5 seats</span></div>
+      </div>
+    </div>
+    <table class="prospects-table">
+      <thead><tr><th>#</th><th>Company</th><th>Type</th><th>Why they fit</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="p-num">01</td><td><div class="p-name">Systematica</div><div class="p-city">Milan</div></td><td><span class="p-type">Engineering / Urban</span></td><td class="p-why">Urban mobility and building engineering firm. BIM-advanced for Italy. Active in EU-funded urban regeneration projects. Milan's tech-forward design culture.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">02</td><td><div class="p-name">Lombardini22</div><div class="p-city">Milan</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Major Italian architecture firm. Commercial renovation and workplace design. BIM-led and technically sophisticated by Italian standards. Milan-based — most BIM-advanced city in Italy.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">03</td><td><div class="p-name">Politecnico di Milano (BIM Lab)</div><div class="p-city">Milan</div></td><td><span class="p-type">Research</span></td><td class="p-why">Italy's leading architecture and engineering university. A research partnership positions us as the academic BIM standard and grants access to Italy's next generation of BIM practitioners.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">04</td><td><div class="p-name">Manens-Tifs</div><div class="p-city">Verona · Milan</div></td><td><span class="p-type">MEP Engineering</span></td><td class="p-why">Major Italian MEP engineering firm. Active in healthcare and industrial renovation. BIM adoption driven by public sector clients. Scan-to-BIM for MEP coordination in renovation.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">05</td><td><div class="p-name">Inarcheck</div><div class="p-city">Milan</div></td><td><span class="p-type">BIM Consultancy</span></td><td class="p-why">Italian BIM management consultancy. Works with public and private sector implementing Decree 560 compliance. Gateway to Italy's newly BIM-mandated public sector market.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">06–20</td><td><div class="p-name">Italy market note</div><div class="p-city"></div></td><td><span class="p-type">Strategy</span></td><td class="p-why">Italy is Phase 3 (2027+) in our GTM sequence. We reserve 5 founding seats for Italian firms identified at international BIM conferences. We prioritise Milan and Turin — the most BIM-mature cities. Our focus is firms already working under Decree 560/2017 compliance.</td><td class="p-priority pr-3">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- HUNGARY -->
+  <div class="rpanel" id="rpanel-hu">
+    <div class="region-header">
+      <div>
+        <div class="region-title">Hungary</div>
+        <p class="region-desc">BIM adoption is emerging but limited to large infrastructure and multinational-led commercial projects. Residential and small commercial sectors remain CAD-based. Hungary is our home market — proximity enables intensive onboarding, face-to-face relationships, and rapid feedback loops. We reserve a meaningful founding allocation here to build a local reference base, test product-market fit at low cost, and establish brand credibility before international expansion.</p>
+      </div>
+      <div class="region-stats">
+        <div class="rstat"><span class="rstat-label">BIM mandate</span><span class="rstat-value">None (emerging)</span></div>
+        <div class="rstat"><span class="rstat-label">BIM adoption rate</span><span class="rstat-value">~18%</span></div>
+        <div class="rstat"><span class="rstat-label">Avg BIM labour cost</span><span class="rstat-value">€20–30/hr</span></div>
+        <div class="rstat"><span class="rstat-label">Founding 100 target seats</span><span class="rstat-value">10 seats</span></div>
+      </div>
+    </div>
+    <table class="prospects-table">
+      <thead><tr><th>#</th><th>Company</th><th>Type</th><th>Why they fit</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="p-num">01</td><td><div class="p-name">Magyar Építész Kamara (Chamber)</div><div class="p-city">Budapest</div></td><td><span class="p-type">Professional Body</span></td><td class="p-why">Hungary's national architects' chamber. A partnership here gives direct access to all registered Hungarian architects. Critical for local brand establishment and soft credibility.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">02</td><td><div class="p-name">Középülettervező Zrt (KÖZTI)</div><div class="p-city">Budapest</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Hungary's largest state architecture firm. Public buildings, renovation, and education. BIM adoption accelerating under EU-funded projects. Home market anchor client.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">03</td><td><div class="p-name">Lechner Tudásközpont</div><div class="p-city">Budapest</div></td><td><span class="p-type">Government / Research</span></td><td class="p-why">Hungary's national land and building information centre. Responsible for digitalisation of the built environment. Strategic partnership for government sector access and BIM standard alignment.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">04</td><td><div class="p-name">FŐMTERV</div><div class="p-city">Budapest</div></td><td><span class="p-type">Engineering</span></td><td class="p-why">Major Hungarian transport and infrastructure engineering firm. Active on EU-funded infrastructure projects requiring BIM. Scan-to-BIM for railway and road asset renovation.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">05</td><td><div class="p-name">Arcadom Group</div><div class="p-city">Budapest</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">One of Hungary's most active commercial architecture practices. Mixed-use, hospitality, and commercial renovation across Budapest. BIM adoption growing.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">06</td><td><div class="p-name">Buildtech (BIM consultancy)</div><div class="p-city">Budapest</div></td><td><span class="p-type">BIM Consultancy</span></td><td class="p-why">Hungarian BIM management and Revit consultancy. Working with domestic firms on BIM implementation. A founding seat here activates the entire Hungarian Revit user community.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">07</td><td><div class="p-name">SCE (Scan Central Europe)</div><div class="p-city">Budapest</div></td><td><span class="p-type">Survey + Scan</span></td><td class="p-why">CEE-focused 3D scanning and survey firm. Already doing point cloud capture in Hungary, Slovakia, Romania. Our platform as their processing back-end is a natural fit.</td><td class="p-priority pr-1">P1</td></tr>
+        <tr><td class="p-num">08</td><td><div class="p-name">TriGranit</div><div class="p-city">Budapest</div></td><td><span class="p-type">Real Estate / Development</span></td><td class="p-why">Major CEE property developer. Needs as-built BIM for renovation and refurbishment of existing commercial portfolio. BIM adoption growing under international tenant requirements.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">09</td><td><div class="p-name">MAPI (Hungarian Institute of Architects)</div><div class="p-city">Budapest</div></td><td><span class="p-type">Research / Education</span></td><td class="p-why">Academic institute training the next generation of Hungarian architects. A teaching partnership creates long-term brand loyalty among students who will adopt our platform in practice.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">10</td><td><div class="p-name">Horváth & Társai Kft</div><div class="p-city">Budapest</div></td><td><span class="p-type">Architecture</span></td><td class="p-why">Mid-size Budapest architecture firm with active residential and commercial renovation portfolio. Representative of the 50–100 staff practice tier that is our primary target market in Hungary.</td><td class="p-priority pr-2">P2</td></tr>
+        <tr><td class="p-num">11–20</td><td><div class="p-name">Hungary market note</div><div class="p-city"></div></td><td><span class="p-type">Strategy</span></td><td class="p-why">We complete the Hungarian 10-seat allocation through personal introductions via the Magyar Építész Kamara network and our existing contacts. Our Hungarian founding seats are about reference-building and onboarding quality — not revenue maximisation. Every Hungarian customer receives personal attention from our founding team.</td><td class="p-priority pr-2">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FOUNDING 100 SEAT ALLOCATION -->
+<section class="section light" id="allocation">
+  <div class="sh">Founding 100 — seat allocation</div>
+  <h2>Where to place<br><em>100 seats.</em></h2>
+  <p class="section-desc">We allocate seats proportionally to market maturity, volume potential, and outreach tractability — not market size alone. Tier 1 markets absorb ~70% of founding seats, with 10% reserved for Hungary as our home-base anchor.</p>
+
+  <div class="alloc-grid">
+    <div class="alloc-card">
+      <div class="alloc-country">🇬🇧 United Kingdom</div>
+      <div class="alloc-seats">25</div>
+      <div class="alloc-why">Highest maturity, English-language, accessible decision makers, strongest ROI case</div>
+      <div class="alloc-bar"><div class="alloc-bar-fill" style="width:100%"></div></div>
+    </div>
+    <div class="alloc-card">
+      <div class="alloc-country">🇩🇪 Germany</div>
+      <div class="alloc-seats">20</div>
+      <div class="alloc-why">Large market, mandate-driven demand, renovation-heavy pipeline</div>
+      <div class="alloc-bar"><div class="alloc-bar-fill" style="width:80%"></div></div>
+    </div>
+    <div class="alloc-card">
+      <div class="alloc-country">🇳🇱 Netherlands</div>
+      <div class="alloc-seats">18</div>
+      <div class="alloc-why">Dense BIM community, Open BIM culture, global firms with local presence</div>
+      <div class="alloc-bar"><div class="alloc-bar-fill" style="width:72%"></div></div>
+    </div>
+    <div class="alloc-card">
+      <div class="alloc-country">🇸🇪🇳🇴🇩🇰🇫🇮 Nordics</div>
+      <div class="alloc-seats">15</div>
+      <div class="alloc-why">Highest labour costs, most sophisticated BIM users, premium pricing potential</div>
+      <div class="alloc-bar"><div class="alloc-bar-fill" style="width:60%"></div></div>
+    </div>
+    <div class="alloc-card">
+      <div class="alloc-country">🇭🇺 Hungary</div>
+      <div class="alloc-seats">10</div>
+      <div class="alloc-why">Home base anchor, low-cost onboarding, local reference building</div>
+      <div class="alloc-bar"><div class="alloc-bar-fill" style="width:40%"></div></div>
+    </div>
+    <div class="alloc-card">
+      <div class="alloc-country">🇧🇪 Belgium</div>
+      <div class="alloc-seats">10</div>
+      <div class="alloc-why">Often overlooked, lower competition, Brussels EU market</div>
+      <div class="alloc-bar"><div class="alloc-bar-fill" style="width:40%"></div></div>
+    </div>
+    <div class="alloc-card">
+      <div class="alloc-country">🇫🇷 France</div>
+      <div class="alloc-seats">8</div>
+      <div class="alloc-why">Large market but language barrier — seed carefully with P1 targets only</div>
+      <div class="alloc-bar"><div class="alloc-bar-fill" style="width:32%"></div></div>
+    </div>
+    <div class="alloc-card">
+      <div class="alloc-country">🇮🇹 Italy</div>
+      <div class="alloc-seats">5</div>
+      <div class="alloc-why">New mandate driving demand — plant early flags, scale in Phase 3</div>
+      <div class="alloc-bar"><div class="alloc-bar-fill" style="width:20%"></div></div>
+    </div>
+  </div>
+
+  <div style="padding:1rem 1.25rem;border:1px solid var(--border);border-radius:10px;background:var(--bg-surface);margin-top:4px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div class="sh" style="margin-bottom:6px;">Total allocation</div>
+        <div style="font-family:var(--f-serif);font-size:48px;line-height:1;">111 prospects</div>
+        <div style="font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:4px;">Target 100 paid seats from 200 outreach contacts (50% conversion)</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em;">At 100 founding seats</div>
+        <div style="font-family:var(--f-serif);font-size:32px;color:var(--accent2);">€250,000</div>
+        <div style="font-family:var(--f-mono);font-size:12px;color:var(--muted);">Upfront founding fees · Day one</div>
+        <div style="font-family:var(--f-serif);font-size:32px;color:var(--green);margin-top:8px;">€250,000</div>
+        <div style="font-family:var(--f-mono);font-size:12px;color:var(--muted);">Matched credits · Processing revenue from alpha</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Click<span>2</span>BIM · GTM Strategy</div>
+  <div class="footer-note">AXONTARA · Confidential · April 2026</div>
+  <div class="footer-note">founders@click2bim.io</div>
+</footer>
+
+<script>
+function showRegion(id, el) {
+  document.querySelectorAll('.rtab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.rpanel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('rpanel-' + id).classList.add('active');
+}
+
+// Nav active state on scroll
+const navSections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', () => {
+  let current = '';
+  navSections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
